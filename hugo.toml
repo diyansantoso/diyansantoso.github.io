@@ -7,7 +7,7 @@ disqusShortname = 'YOUR_DISQUS_SHORTNAME'   # use disqus comments
 
 [params]
   # color style
-  color = 'linen'                           # linen, wheat, gray, light
+  color = 'gray'                           # linen, wheat, gray, light
 
   # header social icons
   github = 'diyansantoso'                 # github.com/YOUR_GITHUB_ID
