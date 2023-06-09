@@ -19,13 +19,7 @@ disqusShortname = 'YOUR_DISQUS_SHORTNAME'   # use disqus comments
 
   # home page profile
   avatar = 'GRAVATAR_EMAIL'                 # gravatar email or image url
-  name = 'YOUR_NAME'
-  bio = 'YOUR_BIO'
+  name = 'Diyan Santoso'
+  bio = 'Belajar'
 
-
-  # misc
-  disableHLJS = true                        # disable highlight.js
-  monoDarkIcon = true                       # show monochrome dark mode icon
-  gravatarCdn = 'GRAVATAR_CDN_LINK'         # e.g. 'https://cdn.v2ex.com/gravatar/'
-  graphCommentId = "YOUR_GRAPH_COMMENT_ID"  # use graph comment (disqus alternative)
-  math = true                          
+                      
