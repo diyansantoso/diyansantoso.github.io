@@ -1,0 +1,4 @@
+baseURL = 'https://diyansantoso.github.io'
+languageCode = 'en-us'
+title = 'Diyan Santoso'
+theme = "paper"
