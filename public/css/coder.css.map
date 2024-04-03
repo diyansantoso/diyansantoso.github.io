@@ -1,7 +1,7 @@
 {
 	"version": 3,
 	"file": "coder.css",
-	"sourceRoot": "C:/Users/Admin/Desktop/diyansantoso.github.io",
+	"sourceRoot": "C:/Users/DIYAN SANTOSO/OneDrive/Desktop/diyansantoso.github.io",
 	"sources": [
 		"themes/hugo-coder/assets/scss/coder.scss",
 		"themes/hugo-coder/assets/scss/css/normalize.css",
