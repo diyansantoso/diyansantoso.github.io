@@ -1,6 +1,6 @@
 baseURL = "https://diyansantoso.github.io"
 title = "Diyan Santoso"
-theme = "hugo-coder"
+theme = "LoveIt"
 languageCode = "en"
 defaultContentLanguage = "en"
 paginate = 6
