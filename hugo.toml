@@ -1,6 +1,6 @@
 baseURL = "https://diyansantoso.github.io"
 title = "Diyan Santoso"
-theme = "LoveIt"
+theme = "hugo-coder"
 languageCode = "en"
 defaultContentLanguage = "en"
 paginate = 6
@@ -14,7 +14,7 @@ noClasses = false
 [params]
 author = "Diyan Santoso"
 # license = '<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA-4.0</a>'
-description = "JDiyan Santoso personal website"
+description = "Diyan Santoso personal website"
 keywords = "blog,personal"
 info = [" IT Support ", "Networking"]
 avatarURL = "images/avatar.jpg"
