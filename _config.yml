@@ -1,12 +1,12 @@
 ### Site Settings ###
-title               : DIYAN SANTOSO
+title               : DiyanSantoso
 description         : >-
                       I turn coffee :coffee: into code,
                       use tabs over spaces
                       and never broke production.
-baseurl             : ""            # Change to empty quotes if you are hosting your site at <your-username>.github.io directly
-repository          : diyansantoso.github.io      # Change to <your-username>/<your-username>.github.io (or remove it if you don't need remote projects)
-remote_theme        : diyansantoso.github.io
+baseurl             : "/diyansantoso"            # Change to empty quotes if you are hosting your site at <your-username>.github.io directly
+repository          : /diyansantoso      # Change to <your-username>/<your-username>.github.io (or remove it if you don't need remote projects)
+remote_theme        : /diyansantoso
 open_new_tab        : false                    # Opens external URLs in new tab (works for posts, projects and navbar only)
 
 
@@ -26,11 +26,11 @@ nav_exclude:                                            # The following paths ar
 ### Author Info ###
 author:
   name              : Diyan Santoso
-  image             : https://github.com/diyansantoso/diyansantoso.github.io/blob/main/img/avatar.jpg
+  image             : https://i.imgur.com/uyDNQnn.jpg
   behance           : your_username
 # dribbble          : your_username
   email             : diyansantoso1992@gmail.com
-  facebook          : dsantos.sukses
+  facebook          : your_username
   github            : diyansantoso
 # gitlab            : your_username
 # instagram         : your_username
