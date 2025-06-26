@@ -24,8 +24,8 @@ nav_exclude:                                            # The following paths ar
 ### Author Info ###
 author:
   name              : Diyan Santoso
-  image             : https://raw.githubusercontent.com/diyansantoso/diyansantoso.github.io/master/diyansantoso/profile.svg
-  image_about       : https://raw.githubusercontent.com/diyansantoso/diyansantoso.github.io/master/diyansantoso/  image             : https://raw.githubusercontent.com/diyansantoso/diyansantoso.github.io/master/diyansantoso/profile.svg
+  image             : https://raw.githubusercontent.com/diyansantoso/diyansantoso.github.io/refs/heads/main/assets/profile.svg
+  image_about       : https://raw.githubusercontent.com/diyansantoso/diyansantoso.github.io/refs/heads/main/assets/profile.svg
 
 # behance           : helmiamirudin
 # dribbble          : helmiau
