@@ -1,11 +1,11 @@
-- name: HTML5/CSS3
-  percentage: 90
+- name: TCP/IP
+  percentage: 80
   color: danger
 
-- name: Go
+- name: Operating Sistem
   percentage: 80
   color:
 
-- name: Python
+- name: Security
   percentage: 70
   color: secondary
