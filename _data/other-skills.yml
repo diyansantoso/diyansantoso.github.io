@@ -1,7 +1,0 @@
-- name: Repair and Maintenance of Computer
-  percentage: 95
-  color: info
-
-- name: Website Development
-  percentage: 60
-  color: success

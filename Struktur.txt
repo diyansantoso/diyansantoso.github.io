@@ -1,0 +1,49 @@
+portfolio-it-support/
+├── index.html
+├── blog.html
+├── admin.html
+├── css/
+│   └── style.css
+├── js/
+│   ├── main.js
+│   ├── blog.js
+│   └── admin.js
+└── assets/
+    └── images/
+	
+	
+
+🚀 Deployment ke GitHub Pages
+1. Buat Repository di GitHub
+Bash
+
+1. Login ke GitHub
+2. Klik "New Repository"
+3. Nama repository: username.github.io (untuk user page) atau nama-project (untuk project page)
+4. Set sebagai Public
+5. Jangan initialize dengan README
+2. Upload File ke GitHub
+Bash
+
+# Initialize git
+git init
+
+# Add all files
+git add .
+
+# Commit
+git commit -m "Initial portfolio website"
+
+# Add remote origin
+git remote add origin https://github.com/username/repository-name.git
+
+# Push to main branch
+git push -u origin main
+3. Enable GitHub Pages
+Bash
+
+1. Go to Settings → Pages
+2. Source: Deploy from a branch
+3. Branch: main
+4. Folder: / (root)
+5. Save
