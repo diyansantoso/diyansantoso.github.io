@@ -26,9 +26,9 @@ nav_exclude:                                            # The following paths ar
 ### Author Info ###
 author:
   name              : Diyan Santoso
-  image             : https://www.shutterstock.com/shutterstock/photos/2033137370/display_1500/stock-vector-programmer-computer-expert-black-linear-icon-man-coding-on-laptop-freelance-software-developer-2033137370.jpg
-# behance           : your_username
-# dribbble          : your_username
+  image             : https://raw.githubusercontent.com/diyansantoso/diyansantoso.github.io/refs/heads/main/assets/ds.png
+  # behance           : your_username
+  # dribbble          : your_username
   email             : diyansantoso1992@gmail.com
   facebook          : dsantos.sukses
   github            : diyansantoso
@@ -46,7 +46,8 @@ author:
 # vimeo             : your_username
   youtube           : "@diyansantoso1992"
 # keybase           : your_username
-
+  whatsapp          : +6285738127969
+  telegram          : DiyanSantoso
 
 ### Posts ###
 permalink: /blog/:title
@@ -68,9 +69,9 @@ disqus:
 
 ### Analytics ###
 analytics:
-  enabled: false                                        # Set true to enable analytics
+  enabled: true                                        # Set true to enable analytics
   google:
-    tracking_id: your-google-tracking-id
+    tracking_id: G-L7SE00NDN0                            # Your Google Analytics Tracking ID
 
 
 ### Buy me a coffee ###
