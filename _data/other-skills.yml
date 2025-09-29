@@ -1,0 +1,11 @@
+- name: Figma
+  percentage: 50
+  color: info
+  
+- name:  Canva
+  percentage: 70
+  color: secondary
+
+- name:  Maintenance Laptop & Computer
+  percentage: 90
+  color: success
