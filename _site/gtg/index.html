@@ -14,31 +14,6 @@
 
     <script>
 
-        import { createClient } from '@supabase/supabase-js'
-
-        const supabaseUrl = 'https://snobwttirleedkexvzbo.supabase.co'
-        const supabaseKey = process.env.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNub2J3dHRpcmxlZWRrZXh2emJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTkyMzY4OTQsImV4cCI6MjA3NDgxMjg5NH0.7AF2BULJAfHYi31HJO9nm7OXFjFwcHVwhUZF4qCH_l8
-        const supabase = createClient(supabaseUrl, supabaseKey);
-
-        import { createClient } from '@supabase/supabase-js'
-
-
-// Cek koneksi dengan mengambil data dari tabel 'users'
-async function fetchUsers() {
-  const { data, error } = await supabase
-    .from('users')  // Nama tabel yang ingin diakses
-    .select('*')  // Memilih semua kolom
-
-  if (error) {
-    console.error('Error:', error)
-  } else {
-    console.log('Data users:', data)
-  }
-}
-
-fetchUsers()
-
-
     </script>
 
 </body>
