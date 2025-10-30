@@ -22,20 +22,6 @@ I'm Front End Developer, Wordpress, Blogger
 <br>
 <br>
 
-Download CV 
-[Indonesia](assets/pdf/CV-ID.pdf)
-[English](assets/pdf/CV-EN.pdf)
-
-Lihat
-Indonesia English
-<embed src="/assets/pdf/CV-ID.pdf" width="100%" height="600px" />
-
-<iframe src="/assets/pdf/CV-ID.pdf" width="100%" height="600px">
-    <p>Browser Anda tidak mendukung iframe, silakan <a href="/assets/pdf/CV-ID.pdf">unduh PDF</a>.</p>
-</iframe>
-
-
-
-<iframe src="{{ '/assets/pdf/CV-ID.pdf' | relative_url }}" width="100%" height="600px">
-    <p>Browser Anda tidak mendukung iframe, silakan <a href="{{ '/assets/pdf/CV-ID.pdf' | relative_url }}">unduh PDF</a>.</p>
-</iframe>
+### Lihat dan Download CV 
+- <a href="https://diyansantoso.github.io/assets/pdf/CV-ID.pdf" target="_blank">Indonesia</a>
+- <a href="https://diyansantoso.github.io/assets/pdf/CV-EN.pdf" target="_blank">English</a>
