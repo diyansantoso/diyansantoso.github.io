@@ -21,12 +21,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Install Jekyll">
-  <meta property="og:description" content="Install Jekyll di windows 10/11">
+  <meta property="og:title" content="Install Cloudflared Tunnel">
+  <meta property="og:description" content="Install Cloudflared Tunnel untuk AApanel Ubuntu 24">
   <meta property="og:image" content="https://raw.githubusercontent.com/diyansantoso/diyansantoso.github.io/refs/heads/main/assets/ds.png">
 
-  <title>Install Jekyll</title>
-  <meta name="description" content="Install Jekyll di windows 10/11">
+  <title>Install Cloudflared Tunnel</title>
+  <meta name="description" content="Install Cloudflared Tunnel untuk AApanel Ubuntu 24">
 
   <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
 
@@ -80,24 +80,102 @@
 
 </nav>
     <div class="col-lg-10 mx-auto mt-5 markdown-body">
-  <h1><b>Install Jekyll</b></h1>
+  <h1><b>Install Cloudflared Tunnel</b></h1>
 
 <p class="post-metadata text-muted">
-  01 January 2022 -  
+  30 October 2025 -  
   <b>less than 1 min read time</b>
 
   <br>Tags: 
     
-    <a class="text-decoration-none no-underline" href="/blog/tags#jekyll">
-      <span class="tag badge badge-pill text-primary border border-primary">Jekyll</span>
+    <a class="text-decoration-none no-underline" href="/blog/tags#cloudflared">
+      <span class="tag badge badge-pill text-primary border border-primary">Cloudflared</span>
     </a>
     
-    <a class="text-decoration-none no-underline" href="/blog/tags#tema">
-      <span class="tag badge badge-pill text-primary border border-primary">Tema</span>
+    <a class="text-decoration-none no-underline" href="/blog/tags#aapanel">
+      <span class="tag badge badge-pill text-primary border border-primary">AApanel</span>
     </a>
     </p>
 
-<h1 id="install-jekyll-di-windows">Install Jekyll di windows</h1>
+<h1 id="install-cloudflared-untuk-aapanel-di-ubuntu-24-">Install CLoudflared Untuk AApanel di Ubuntu 24 :</h1>
+<h1 id="add-cloudflare-gpg-key">Add cloudflare gpg key</h1>
+<p>sudo mkdir -p –mode=0755 /usr/share/keyrings
+curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg &gt;/dev/null</p>
+
+<h1 id="add-this-repo-to-your-apt-repositories">Add this repo to your apt repositories</h1>
+<p>echo ‘deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main’ | sudo tee /etc/apt/sources.list.d/cloudflared.list</p>
+
+<h1 id="install-cloudflared">install cloudflared</h1>
+<p>sudo apt-get update &amp;&amp; sudo apt-get install cloudflared</p>
+
+<h1 id="login-cloudflared">Login Cloudflared</h1>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cloudflared tunnel login
+</code></pre></div></div>
+
+<h1 id="create-tunnel">Create Tunnel</h1>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cloudflared tunnel create
+</code></pre></div></div>
+
+<h1 id="create-configyml">Create config.yml</h1>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tunnel: 91fa2653-ca23-4eae-b25e-45a284c7538a
+credentials-file: /root/.cloudflared/cert.pem
+
+ingress:
+  - <span class="nb">hostname</span>: panel.gtg.my.id
+    service: http://localhost:8000 <span class="c"># panel</span>
+  - <span class="nb">hostname</span>: gtg.my.id
+    service: http://localhost:80 <span class="c">#</span>
+  - <span class="nb">hostname</span>: <span class="s1">'*.gtg.my.id'</span>
+    service: http://localhost:80 <span class="c">#Willcard</span>
+  - service: http_status:404
+</code></pre></div></div>
+
+<h1 id="tambahkan-dns-di-cloudflare">Tambahkan DNS di CLoudflare</h1>
+<h2 id="cname">CNAME</h2>
+<p>id tunnel untuk dns:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>91fa2653-ca23-4eae-b25e-45a284c7538a.cfargotunnel.com
+</code></pre></div></div>
+
+<h1 id="start-automatis-saat-boot">Start Automatis Saat Boot</h1>
+
+<h2 id="create-file-cloudflare-service">Create File cloudflare service</h2>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/systemd/system/cloudflared.service
+</code></pre></div></div>
+
+<p>isi file :</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>Unit]
+<span class="nv">Description</span><span class="o">=</span>Cloudflare Tunnel
+<span class="nv">After</span><span class="o">=</span>network.target
+
+<span class="o">[</span>Service]
+<span class="nv">ExecStart</span><span class="o">=</span>/usr/local/bin/cloudflared tunnel run aapanel-tunnel
+<span class="nv">Restart</span><span class="o">=</span>on-failure
+<span class="nv">User</span><span class="o">=</span>root
+<span class="nv">Group</span><span class="o">=</span>nogroup
+<span class="nv">WorkingDirectory</span><span class="o">=</span>/root/.cloudflared
+
+<span class="o">[</span>Install]
+<span class="nv">WantedBy</span><span class="o">=</span>multi-user.target
+</code></pre></div></div>
+
+<h3 id="reload-daemon">Reload Daemon</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl daemon-reload
+</code></pre></div></div>
+
+<h3 id="enable-cloudflare-service">Enable Cloudflare Service</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl <span class="nb">enable </span>cloudflared
+</code></pre></div></div>
+<h3 id="start-cloudflare-service">Start Cloudflare Service</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl start cloudflared
+</code></pre></div></div>
+
+<h3 id="status-cloudflare-service">Status Cloudflare Service</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl status cloudflared
+</code></pre></div></div>
+
+<h3 id="log-cloudflared-service">Log CLoudflared Service</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>journalctl <span class="nt">-u</span> cloudflared <span class="nt">-f</span>
+</code></pre></div></div>
 
 
 
