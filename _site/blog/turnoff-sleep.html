@@ -21,12 +21,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Projects">
-  <meta property="og:description" content="I am an IT Support Specialist. Experienced in Software, Hardware and Networking. Installation, Maintenance, and Troubleshooting. Skilled in Networking, Windo...">
+  <meta property="og:title" content="Cara membuat Laptop Ubuntu Server 24 tidak mati saat di tutup layarnya">
+  <meta property="og:description" content="Cara membuat Laptop Ubuntu Server 24 tidak mati saat di tutup layarnya">
   <meta property="og:image" content="https://raw.githubusercontent.com/diyansantoso/diyansantoso.github.io/refs/heads/main/assets/ds.png">
 
-  <title>Projects</title>
-  <meta name="description" content="I am an IT Support Specialist. Experienced in Software, Hardware and Networking. Installation, Maintenance, and Troubleshooting. Skilled in Networking, Windo...">
+  <title>Cara membuat Laptop Ubuntu Server 24 tidak mati saat di tutup layarnya</title>
+  <meta name="description" content="Cara membuat Laptop Ubuntu Server 24 tidak mati saat di tutup layarnya">
 
   <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
 
@@ -64,9 +64,9 @@
 
       <a class="nav-item nav-link " href="/notes/links"></a>
 
-      <a class="nav-item nav-link active" href="/projects/">Projects</a>
+      <a class="nav-item nav-link " href="/projects/">Projects</a>
 
-      <a class="nav-item nav-link " href="/blog/">Blog</a>
+      <a class="nav-item nav-link active" href="/blog/">Blog</a>
 
       <a class="nav-item nav-link " href="/about/">About</a>
 
@@ -77,27 +77,55 @@
   </div>
 
 </nav>
+    <div class="col-lg-10 mx-auto mt-5 markdown-body">
+  <h1><b>Cara membuat Laptop Ubuntu Server 24 tidak mati saat di tutup layarnya</b></h1>
+
+<p class="post-metadata text-muted">
+  31 October 2025 -  
+  <b>less than 1 min read time</b>
+
+  <br>Tags: 
     
-<div class="card-columns m-3 mt-5">
+    <a class="text-decoration-none no-underline" href="/blog/tags#ubuntu">
+      <span class="tag badge badge-pill text-primary border border-primary">Ubuntu</span>
+    </a>
+    
+    <a class="text-decoration-none no-underline" href="/blog/tags#server">
+      <span class="tag badge badge-pill text-primary border border-primary">Server</span>
+    </a>
+    </p>
 
-  <!-- Remote Projects -->
-  
+<h3 id="buka-file">Buka file</h3>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/systemd/logind.conf
+</code></pre></div></div>
+<h4 id="tambahkan-ini-di-dalam-file-">Tambahkan ini di dalam file :</h4>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">HandleLidSwitch</span><span class="o">=</span>ignore
+<span class="nv">HandleLidSwitchExternalPower</span><span class="o">=</span>ignore
+<span class="nv">HandleLidSwitchDocked</span><span class="o">=</span>ignore
+<span class="nv">LidSwitchIgnoreInhibited</span><span class="o">=</span>no
+</code></pre></div></div>
 
-  <!-- Local Projects -->
-  <div class="wow animated fadeIn" data-wow-delay=".15s">
-  <a href="/projects/kds" class="project card text-themed"><img id="install-wifi-dan-cctv-img" class="card-img-top" src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/572594958.jpg?k=b9959b9599a284f843f16b1715dddc728768355e81727efb8ad8459ca0b082ce&o=" alt="Install Wifi dan CCTV" /><div class="card-body">
-      <h5 id="install-wifi-dan-cctv-name" class="card-title">Install Wifi dan CCTV
-      </h5>
-      <p id="install-wifi-dan-cctv-desc" class="card-text">Install Wifi dan CCTV</p>
-      <p id="install-wifi-dan-cctv-tools" class="card-text"><span class="badge badge-pill text-primary border border-primary ml-1">Wifi</span><span class="badge badge-pill text-primary border border-primary ml-1">CCTV</span></p>
-    </div>
-  </a>
+<h3 id="simpan-perubahan-dan-restart">Simpan perubahan dan Restart</h3>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>systemctl restart systemd-logind
+</code></pre></div></div>
+
+<p>Alternatif</p>
+<h3 id="matikan-fungsi-sleep">Matikan Fungsi Sleep</h3>
+
+<h5 id="edit">Edit</h5>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>nano /etc/systemd/sleep.conf
+</code></pre></div></div>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">AllowSuspend</span><span class="o">=</span>no
+<span class="nv">AllowHibernation</span><span class="o">=</span>no
+<span class="nv">AllowSuspendThenHibernate</span><span class="o">=</span>no
+<span class="nv">AllowHybridSleep</span><span class="o">=</span>no
+</code></pre></div></div>
+
+
+
 </div>
-
-  
-
-</div>
-
   </main>
   <footer class="mt-auto py-3 text-center">
 

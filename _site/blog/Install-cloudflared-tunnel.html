@@ -60,17 +60,15 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav ml-auto"><a class="nav-item nav-link " href="/notes/links"></a>
+    <div class="navbar-nav ml-auto"><a class="nav-item nav-link " href="/notes/note"></a>
 
-      <a class="nav-item nav-link " href="/notes/note"></a>
+      <a class="nav-item nav-link " href="/notes/links"></a>
 
       <a class="nav-item nav-link " href="/projects/">Projects</a>
 
       <a class="nav-item nav-link active" href="/blog/">Blog</a>
 
       <a class="nav-item nav-link " href="/about/">About</a>
-
-      <a class="nav-item nav-link " href="/linux/">Linux</a>
 
       
 
@@ -97,16 +95,19 @@
     </a>
     </p>
 
+<p><img src="/assets/img/img001.png" alt="alt" />
+<img src="/assets/img/img002.png" alt="alt" /></p>
+
 <h1 id="install-cloudflared-untuk-aapanel-di-ubuntu-24-">Install CLoudflared Untuk AApanel di Ubuntu 24 :</h1>
-<h1 id="add-cloudflare-gpg-key">Add cloudflare gpg key</h1>
-<p>sudo mkdir -p –mode=0755 /usr/share/keyrings
+<p>Add cloudflare gpg key
+sudo mkdir -p –mode=0755 /usr/share/keyrings
 curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg &gt;/dev/null</p>
 
-<h1 id="add-this-repo-to-your-apt-repositories">Add this repo to your apt repositories</h1>
-<p>echo ‘deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main’ | sudo tee /etc/apt/sources.list.d/cloudflared.list</p>
+<p>Add this repo to your apt repositories
+echo ‘deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main’ | sudo tee /etc/apt/sources.list.d/cloudflared.list</p>
 
-<h1 id="install-cloudflared">install cloudflared</h1>
-<p>sudo apt-get update &amp;&amp; sudo apt-get install cloudflared</p>
+<p>install cloudflared
+sudo apt-get update &amp;&amp; sudo apt-get install cloudflared</p>
 
 <h1 id="login-cloudflared">Login Cloudflared</h1>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cloudflared tunnel login

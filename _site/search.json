@@ -1,6 +1,22 @@
 [
   
     {
+      "title"    : "Cpanel email",
+      "category" : "",
+      "tags"     : "cpanel, email",
+      "url"      : "/blog/cpanel-email",
+      "date"     : "2025-11-03 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Cara membuat Laptop Ubuntu Server 24 tidak mati saat di tutup layarnya",
+      "category" : "",
+      "tags"     : "Ubuntu, Server",
+      "url"      : "/blog/turnoff-sleep",
+      "date"     : "2025-10-31 00:00:00 +0800"
+    } ,
+  
+    {
       "title"    : "Install Cloudflared Tunnel",
       "category" : "",
       "tags"     : "Cloudflared, AApanel",
@@ -9,11 +25,35 @@
     } ,
   
     {
+      "title"    : "Mengunakan Markdown",
+      "category" : "",
+      "tags"     : "Markdown",
+      "url"      : "/blog/markdown",
+      "date"     : "2022-01-04 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Free Course",
+      "category" : "",
+      "tags"     : "course",
+      "url"      : "/blog/freecourse",
+      "date"     : "2022-01-03 00:00:00 +0800"
+    } ,
+  
+    {
       "title"    : "Install Jekyll",
       "category" : "",
       "tags"     : "Jekyll, Tema",
       "url"      : "/blog/install-jekyll",
-      "date"     : "2022-01-01 00:00:00 +0800"
+      "date"     : "2022-01-02 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Membuat Post",
+      "category" : "",
+      "tags"     : "post, jekyll",
+      "url"      : "/blog/membuat-post",
+      "date"     : "2020-01-01 00:00:00 +0800"
     } 
   
 ]
