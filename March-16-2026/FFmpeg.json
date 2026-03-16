@@ -1,0 +1,801 @@
+[
+  {
+    "updatedAt": "2026-03-15T02:39:14.000Z",
+    "createdAt": "2026-03-12T14:46:10.516Z",
+    "id": "HGPdZOzyHRhoLJN4",
+    "name": "FFmpeg",
+    "active": false,
+    "isArchived": true,
+    "nodes": [
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -2672,
+          320
+        ],
+        "id": "b9059c0f-6e2b-42be-8813-3471897ca9c9",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          -2000,
+          320
+        ],
+        "id": "07c65563-6bbd-47bb-b03c-135a0a55a576",
+        "name": "Wait",
+        "webhookId": "3fa0e59c-efc4-42fe-9b64-aabcd384816a"
+      },
+      {
+        "parameters": {
+          "url": "={{ $json.status_url }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "key {YOUR KEY HERE}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -1776,
+          320
+        ],
+        "id": "d4bd5b2d-e181-4d9b-805f-ef9ad924aa9c",
+        "name": "Get Results"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "5b377c41-0ebb-4dc3-80d2-39d109ee4fb0",
+                "leftValue": "={{ $json.status }}",
+                "rightValue": "COMPLETED",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -1552,
+          320
+        ],
+        "id": "5afe0516-2b6e-4b75-90cb-1af1a43e40d2",
+        "name": "Completed?"
+      },
+      {
+        "parameters": {
+          "url": "={{ $json.response_url }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "key {YOUR KEY HERE}"
+              },
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -2000,
+          160
+        ],
+        "id": "67f61aba-f1f6-463d-b940-9627a3b4558e",
+        "name": "Get Video Data"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://queue.fal.run/fal-ai/ffmpeg-api/compose",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "key {YOUR KEY HERE}"
+              },
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ $json.json_string }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -1552,
+          160
+        ],
+        "id": "a66e4210-efac-4a85-b44d-1d34da3bf798",
+        "name": "Combine Videos"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Combine input items into a timeline of video tracks\nconst inputItems = $input.all();\nlet currentTimestamp = 0;\n\n// Build keyframes from each item\nconst keyframes = inputItems.map(item => {\n  const url = item.json.media.url;\n  const duration = item.json.media.duration;\n\n  const keyframe = {\n    url,\n    timestamp: currentTimestamp,\n    duration\n  };\n\n  currentTimestamp += duration;\n  return keyframe;\n});\n\n// Build the full JSON structure\nconst videoJson = {\n  tracks: [\n    {\n      id: \"1\",\n      type: \"video\",\n      keyframes\n    }\n  ]\n};\n\n// Return the JSON as a raw string\nreturn [\n  {\n    json: {\n      json_string: JSON.stringify(videoJson)\n    }\n  }\n];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -1776,
+          160
+        ],
+        "id": "23973ed2-e856-4f98-9238-d990577dcd9d",
+        "name": "Code"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          -1264,
+          160
+        ],
+        "id": "516e81c9-4e1e-4369-9848-36def06c03f2",
+        "name": "Wait1",
+        "webhookId": "3fa0e59c-efc4-42fe-9b64-aabcd384816a"
+      },
+      {
+        "parameters": {
+          "url": "={{ $json.status_url }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "key {YOUR KEY HERE}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -1040,
+          160
+        ],
+        "id": "3bd7c723-3c94-4587-bd82-abf212c52429",
+        "name": "Get Results1"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "5b377c41-0ebb-4dc3-80d2-39d109ee4fb0",
+                "leftValue": "={{ $json.status }}",
+                "rightValue": "COMPLETED",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          -816,
+          160
+        ],
+        "id": "782c4b4d-a37e-4158-8567-aea3351b9a1a",
+        "name": "Completed?1"
+      },
+      {
+        "parameters": {
+          "url": "={{ $json.response_url }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "key {YOUR KEY HERE}"
+              },
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -1264,
+          -32
+        ],
+        "id": "9e5f697e-95a2-4bba-89cc-d8a0aad21bcb",
+        "name": "Get Video Data1"
+      },
+      {
+        "parameters": {
+          "base": {
+            "__rl": true,
+            "value": "appShiUEqQa86nLbK",
+            "mode": "list",
+            "cachedResultName": "Awaken Me AI",
+            "cachedResultUrl": "https://airtable.com/appShiUEqQa86nLbK"
+          },
+          "table": {
+            "__rl": true,
+            "value": "tblXz8P0FEdMmc6N5",
+            "mode": "list",
+            "cachedResultName": "Background Music",
+            "cachedResultUrl": "https://airtable.com/appShiUEqQa86nLbK/tblXz8P0FEdMmc6N5"
+          },
+          "id": "recg1mhqxkJ5eb8C3",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.airtable",
+        "typeVersion": 2.1,
+        "position": [
+          -816,
+          -32
+        ],
+        "id": "8c2aeb1a-ab48-4d76-8b56-b8178fea832a",
+        "name": "Grab Music File",
+        "credentials": {
+          "airtableTokenApi": {
+            "id": "SwouHdjdeb177sLX",
+            "name": "Airtable Personal Access Token account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "url": "={{ $json.video_url }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -1040,
+          -32
+        ],
+        "id": "4658f2ff-d948-4d88-bf4b-fc6e37cda5c7",
+        "name": "Download Video"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://queue.fal.run/fal-ai/ffmpeg-api/merge-audio-video",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "key {YOUR KEY HERE}"
+              },
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "video_url",
+                "value": "={{ $('Download Video').item.json.video_url }}"
+              },
+              {
+                "name": "audio_url",
+                "value": "={{ $json['Audio File'][0].url }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -592,
+          -32
+        ],
+        "id": "49a554cf-c137-4409-bf26-f1557ea55d0b",
+        "name": "Add Music"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          -336,
+          -32
+        ],
+        "id": "5d287012-abc5-403c-aa40-f7f77559b977",
+        "name": "Wait2",
+        "webhookId": "3fa0e59c-efc4-42fe-9b64-aabcd384816a"
+      },
+      {
+        "parameters": {
+          "url": "={{ $json.status_url }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "key {YOUR KEY HERE}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -112,
+          -32
+        ],
+        "id": "7d67dcc1-5871-44fb-b5f1-033326f883b5",
+        "name": "Get Results2"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "5b377c41-0ebb-4dc3-80d2-39d109ee4fb0",
+                "leftValue": "={{ $json.status }}",
+                "rightValue": "COMPLETED",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          112,
+          -32
+        ],
+        "id": "4f845374-141b-42a2-81e8-ab6aad002814",
+        "name": "Completed?2"
+      },
+      {
+        "parameters": {
+          "url": "={{ $json.response_url }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "key {YOUR KEY HERE}"
+              },
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          384,
+          -112
+        ],
+        "id": "a2ba5567-1e09-4b1a-ab56-ad4d04f8d07b",
+        "name": "Get Video Data2"
+      },
+      {
+        "parameters": {
+          "operation": "search",
+          "base": {
+            "__rl": true,
+            "mode": "list",
+            "value": ""
+          },
+          "table": {
+            "__rl": true,
+            "value": "",
+            "mode": "list",
+            "cachedResultName": "",
+            "cachedResultUrl": ""
+          },
+          "returnAll": false,
+          "limit": 3,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.airtable",
+        "typeVersion": 2.1,
+        "position": [
+          -2464,
+          320
+        ],
+        "id": "b36d88b8-80fe-421f-9c48-6d990f65eee3",
+        "name": "Grab Video Files",
+        "credentials": {
+          "airtableTokenApi": {
+            "id": "SwouHdjdeb177sLX",
+            "name": "Airtable Personal Access Token account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://queue.fal.run/fal-ai/ffmpeg-api/metadata",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "key {YOUR KEY HERE}"
+              },
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          },
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "media_url",
+                "value": "={{ $json.File[0].url }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          -2240,
+          320
+        ],
+        "id": "2f744167-e9bc-4230-8b8c-2644f01406a3",
+        "name": "Grab Video Meta Data"
+      },
+      {
+        "parameters": {
+          "url": "https://v3.fal.media/files/rabbit/ppdgFpdufmg2iXOCU7PW3_combined_output.mp4",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          608,
+          -112
+        ],
+        "id": "09121318-dbb2-41c4-8869-e56526dd2b38",
+        "name": "HTTP Request"
+      }
+    ],
+    "connections": {
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "Grab Video Files",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "Get Results",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Results": {
+        "main": [
+          [
+            {
+              "node": "Completed?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Completed?": {
+        "main": [
+          [
+            {
+              "node": "Get Video Data",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Video Data": {
+        "main": [
+          [
+            {
+              "node": "Code",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code": {
+        "main": [
+          [
+            {
+              "node": "Combine Videos",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait1": {
+        "main": [
+          [
+            {
+              "node": "Get Results1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Results1": {
+        "main": [
+          [
+            {
+              "node": "Completed?1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Completed?1": {
+        "main": [
+          [
+            {
+              "node": "Get Video Data1",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Wait1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Combine Videos": {
+        "main": [
+          [
+            {
+              "node": "Wait1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Video Data1": {
+        "main": [
+          [
+            {
+              "node": "Download Video",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Download Video": {
+        "main": [
+          [
+            {
+              "node": "Grab Music File",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Grab Music File": {
+        "main": [
+          [
+            {
+              "node": "Add Music",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait2": {
+        "main": [
+          [
+            {
+              "node": "Get Results2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Results2": {
+        "main": [
+          [
+            {
+              "node": "Completed?2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Completed?2": {
+        "main": [
+          [
+            {
+              "node": "Get Video Data2",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Wait2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Add Music": {
+        "main": [
+          [
+            {
+              "node": "Wait2",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Grab Video Files": {
+        "main": [
+          [
+            {
+              "node": "Grab Video Meta Data",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Grab Video Meta Data": {
+        "main": [
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get Video Data2": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request": {
+        "main": [
+          []
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false
+    },
+    "staticData": null,
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "pinData": {},
+    "versionId": "55898db0-7737-4e9a-893d-e37da7ac601e",
+    "activeVersionId": null,
+    "triggerCount": 0,
+    "shared": [
+      {
+        "updatedAt": "2026-03-12T14:46:10.518Z",
+        "createdAt": "2026-03-12T14:46:10.518Z",
+        "role": "workflow:owner",
+        "workflowId": "HGPdZOzyHRhoLJN4",
+        "projectId": "59P8vIeQ1X2EvJj1"
+      }
+    ],
+    "activeVersion": null,
+    "tags": []
+  }
+]

@@ -1,0 +1,718 @@
+[
+  {
+    "updatedAt": "2026-03-15T12:26:52.891Z",
+    "createdAt": "2026-03-14T15:28:27.638Z",
+    "id": "xcwDglMKZLvQ97jc",
+    "name": "Telegram-Assitant",
+    "active": false,
+    "isArchived": false,
+    "nodes": [
+      {
+        "parameters": {
+          "updates": [
+            "message"
+          ],
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegramTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -576,
+          112
+        ],
+        "id": "26ec1416-b2ab-4c4c-a927-60983963d66c",
+        "name": "Telegram Trigger",
+        "webhookId": "be132819-0d6c-411c-8041-9641ec93728a",
+        "credentials": {
+          "telegramApi": {
+            "id": "xpPZMtYAxMYLvNcf",
+            "name": "Telegram account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.message.text }}",
+          "hasOutputParser": true,
+          "options": {
+            "systemMessage": "You are a helpful AI assistant.",
+            "maxIterations": 10
+          }
+        },
+        "type": "n8n-nodes-chutes.chutesAIAgent",
+        "typeVersion": 1,
+        "position": [
+          1088,
+          -464
+        ],
+        "id": "b74da194-8942-42f6-a675-29e8f471a7e8",
+        "name": "Chutes AI Agent"
+      },
+      {
+        "parameters": {
+          "chuteUrl": "https://chutes-chutesai-mistral-small-3-2-24b-instruct-2506.chutes.ai",
+          "model": "chutesai/Mistral-Small-3.2-24B-Instruct-2506",
+          "options": {}
+        },
+        "type": "n8n-nodes-chutes.chutesChatModel",
+        "typeVersion": 1,
+        "position": [
+          912,
+          -240
+        ],
+        "id": "2476f2e6-c1da-4ff0-be19-ce89b033e96d",
+        "name": "Chutes Chat Model",
+        "credentials": {
+          "chutesApi": {
+            "id": "QZqYhb1zoBDTsaJ4",
+            "name": "Chutes account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "text": "=\n{{ $workflow.name }}\nHi, {{ $('Telegram Trigger').item.json.message.from.username }}\n{{ $json.prompt }} :\n\n{{ $json.output }}",
+          "replyMarkup": "forceReply",
+          "forceReply": {},
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          768,
+          -448
+        ],
+        "id": "746f66f5-10a4-43de-9a37-4a8c802bd158",
+        "name": "Send a text message",
+        "webhookId": "49fb4cbd-49e4-4e5a-a469-293b494c353f",
+        "credentials": {
+          "telegramApi": {
+            "id": "xpPZMtYAxMYLvNcf",
+            "name": "Telegram account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "1sRKUwRV_06pXy29VStv8gxLfxDf9tPW3wywpKGhUmx4",
+            "mode": "list",
+            "cachedResultName": "ide-konten",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1sRKUwRV_06pXy29VStv8gxLfxDf9tPW3wywpKGhUmx4/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": "gid=0",
+            "mode": "list",
+            "cachedResultName": "Sheet1",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1sRKUwRV_06pXy29VStv8gxLfxDf9tPW3wywpKGhUmx4/edit#gid=0"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheetsTool",
+        "typeVersion": 4.7,
+        "position": [
+          1312,
+          -240
+        ],
+        "id": "121e8418-8db5-4a4b-8911-e6d87613d6be",
+        "name": "Get row(s) in sheet in Google Sheets",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "S4sD18TxDMsDHQx0",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "sendPhoto",
+          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "binaryData": true,
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          144,
+          -80
+        ],
+        "id": "7e5c3e63-96e8-47c1-9578-aa07ce8e6a41",
+        "name": "Send a photo message",
+        "webhookId": "b73bcc10-42f1-4317-93f6-f160ddda4612",
+        "credentials": {
+          "telegramApi": {
+            "id": "xpPZMtYAxMYLvNcf",
+            "name": "Telegram account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "imageGeneration",
+          "chuteUrl": "https://chutes-hunyuan-image-3.chutes.ai",
+          "prompt": "={{ $json.message.text }}",
+          "additionalOptions": {}
+        },
+        "type": "n8n-nodes-chutes.chutes",
+        "typeVersion": 1,
+        "position": [
+          -80,
+          -80
+        ],
+        "id": "5f678702-0e9a-4068-9558-f72798a91193",
+        "name": "Generate images",
+        "credentials": {
+          "chutesApi": {
+            "id": "QZqYhb1zoBDTsaJ4",
+            "name": "Chutes account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.message.text }}",
+                      "rightValue": "/img",
+                      "operator": {
+                        "type": "string",
+                        "operation": "endsWith"
+                      },
+                      "id": "caea9466-7cf3-4f8f-b611-0a703ac85f0a"
+                    }
+                  ],
+                  "combinator": "and"
+                }
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "e9bf6e72-cdd8-4e9f-9b9a-56d095c2f525",
+                      "leftValue": "={{ $json.message.text }}",
+                      "rightValue": "/tts",
+                      "operator": {
+                        "type": "string",
+                        "operation": "startsWith"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                }
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "33bd5fca-533c-456f-bd97-a15385622325",
+                      "leftValue": "={{ $json.message.text }}",
+                      "rightValue": "/ttv",
+                      "operator": {
+                        "type": "string",
+                        "operation": "startsWith"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                }
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "89e76dd9-8a65-4460-9b74-20221dee34ef",
+                      "leftValue": "=",
+                      "rightValue": "/itv",
+                      "operator": {
+                        "type": "string",
+                        "operation": "exists",
+                        "singleValue": true
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                }
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "36a32521-10ac-48cb-b742-be2ecc4d92f4",
+                      "leftValue": "={{ $json.message.text }}",
+                      "rightValue": "/music",
+                      "operator": {
+                        "type": "string",
+                        "operation": "startsWith"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                }
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.4,
+        "position": [
+          -384,
+          96
+        ],
+        "id": "4e0339b0-4bc6-4cb4-88af-112b55e5335d",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "resource": "textToSpeech",
+          "chuteUrl": "https://chutes-kokoro.chutes.ai",
+          "text": "={{ $json.message.text }}{{ $('Telegram Trigger').item.json.message.text }}",
+          "additionalOptions": {}
+        },
+        "type": "n8n-nodes-chutes.chutes",
+        "typeVersion": 1,
+        "position": [
+          -80,
+          112
+        ],
+        "id": "315a4a7b-4717-47b0-8172-a998836e38a3",
+        "name": "Generate speech",
+        "credentials": {
+          "chutesApi": {
+            "id": "QZqYhb1zoBDTsaJ4",
+            "name": "Chutes account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "sendAudio",
+          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "binaryData": true,
+          "additionalFields": {
+            "caption": "gtg ai"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          144,
+          112
+        ],
+        "id": "b330e301-e7ae-4077-be08-a864ea56ff23",
+        "name": "Send an audio file",
+        "webhookId": "b73bcc10-42f1-4317-93f6-f160ddda4612",
+        "credentials": {
+          "telegramApi": {
+            "id": "xpPZMtYAxMYLvNcf",
+            "name": "Telegram account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "videoGeneration",
+          "chuteUrl": "https://chutes-ltx-2.chutes.ai",
+          "prompt": "={{ $('Telegram Trigger').item.json.message.text }}",
+          "additionalOptions": {
+            "resolution": "1280*720",
+            "steps": 25,
+            "duration": 5,
+            "image_strength": 1,
+            "loras": {
+              "loraItems": [
+                {
+                  "name": "depth-control"
+                }
+              ]
+            }
+          }
+        },
+        "type": "n8n-nodes-chutes.chutes",
+        "typeVersion": 1,
+        "position": [
+          -80,
+          304
+        ],
+        "id": "df3fb603-fd55-402c-ae74-281e09b288f5",
+        "name": "Generate video from text",
+        "credentials": {
+          "chutesApi": {
+            "id": "QZqYhb1zoBDTsaJ4",
+            "name": "Chutes account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "sendVideo",
+          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "binaryData": true,
+          "additionalFields": {
+            "caption": "gtg ai"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          160,
+          304
+        ],
+        "id": "d75f1a7d-5dc0-4f07-930a-66deb028642f",
+        "name": "Send a video",
+        "webhookId": "b73bcc10-42f1-4317-93f6-f160ddda4612",
+        "credentials": {
+          "telegramApi": {
+            "id": "xpPZMtYAxMYLvNcf",
+            "name": "Telegram account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "videoGeneration",
+          "chuteUrl": "https://chutes-ltx-2.chutes.ai",
+          "operation": "image2video",
+          "prompt": "={{ $('Telegram Trigger').item.json.message.photo[3] }}",
+          "image": "=data",
+          "additionalOptions": {
+            "resolution": "1280*720",
+            "steps": 25,
+            "duration": 5,
+            "fps": 24
+          }
+        },
+        "type": "n8n-nodes-chutes.chutes",
+        "typeVersion": 1,
+        "position": [
+          -80,
+          512
+        ],
+        "id": "29592f78-03b1-4511-9164-1dd5ae4db15c",
+        "name": "Animate image to video",
+        "credentials": {
+          "chutesApi": {
+            "id": "QZqYhb1zoBDTsaJ4",
+            "name": "Chutes account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "sendVideo",
+          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "binaryData": true,
+          "additionalFields": {
+            "caption": "gtg ai"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          160,
+          512
+        ],
+        "id": "249ea240-3278-4dd3-a533-3e078eed3511",
+        "name": "Send a video1",
+        "webhookId": "b73bcc10-42f1-4317-93f6-f160ddda4612",
+        "credentials": {
+          "telegramApi": {
+            "id": "xpPZMtYAxMYLvNcf",
+            "name": "Telegram account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "musicGeneration",
+          "chuteUrl": "https://chutes-diffrhythm.chutes.ai",
+          "prompt": "={{ $json.chatInput }}",
+          "lyrics": "={{ $json.chatInput }}",
+          "additionalOptions": {}
+        },
+        "type": "n8n-nodes-chutes.chutes",
+        "typeVersion": 1,
+        "position": [
+          -80,
+          704
+        ],
+        "id": "efddb58b-0975-483f-9b2b-09b5f1c1b8d0",
+        "name": "Generate music",
+        "credentials": {
+          "chutesApi": {
+            "id": "QZqYhb1zoBDTsaJ4",
+            "name": "Chutes account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "operation": "sendVideo",
+          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "binaryData": true,
+          "additionalFields": {
+            "caption": "gtg ai"
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          256,
+          704
+        ],
+        "id": "f377466f-eb25-4be5-a80a-87458a69a43b",
+        "name": "Send a video2",
+        "webhookId": "b73bcc10-42f1-4317-93f6-f160ddda4612",
+        "credentials": {
+          "telegramApi": {
+            "id": "xpPZMtYAxMYLvNcf",
+            "name": "Telegram account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "file",
+          "fileId": "={{ $json.message.reply_to_message.photo[0]}}",
+          "download": false
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          -720,
+          464
+        ],
+        "id": "0fb4386d-f5c5-4a0d-94d7-455466b13507",
+        "name": "Get a file",
+        "webhookId": "17431a28-dd35-46aa-ab7e-d876b1627ae5",
+        "credentials": {
+          "telegramApi": {
+            "id": "xpPZMtYAxMYLvNcf",
+            "name": "Telegram account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+        "typeVersion": 1.4,
+        "position": [
+          -432,
+          704
+        ],
+        "id": "d7a19911-e225-4662-bd1d-c803fc19dd19",
+        "name": "When chat message received",
+        "webhookId": "a2c5a766-0f1a-4e9d-abf8-86302ccbc220"
+      }
+    ],
+    "connections": {
+      "Telegram Trigger": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Chutes Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Chutes AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Chutes AI Agent": {
+        "main": [
+          [
+            {
+              "node": "Send a text message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get row(s) in sheet in Google Sheets": {
+        "ai_tool": [
+          [
+            {
+              "node": "Chutes AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send a text message": {
+        "main": [
+          []
+        ]
+      },
+      "Generate images": {
+        "main": [
+          [
+            {
+              "node": "Send a photo message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate speech": {
+        "main": [
+          [
+            {
+              "node": "Send an audio file",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Generate images",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Generate speech",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Generate video from text",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [],
+          []
+        ]
+      },
+      "Generate video from text": {
+        "main": [
+          [
+            {
+              "node": "Send a video",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Animate image to video": {
+        "main": [
+          [
+            {
+              "node": "Send a video1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate music": {
+        "main": [
+          []
+        ]
+      },
+      "Get a file": {
+        "main": [
+          []
+        ]
+      },
+      "When chat message received": {
+        "main": [
+          [
+            {
+              "node": "Generate music",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false
+    },
+    "staticData": null,
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "pinData": {},
+    "versionId": "410a9197-e669-4bbd-943d-7d510bc08736",
+    "activeVersionId": null,
+    "triggerCount": 1,
+    "shared": [
+      {
+        "updatedAt": "2026-03-14T15:28:27.648Z",
+        "createdAt": "2026-03-14T15:28:27.648Z",
+        "role": "workflow:owner",
+        "workflowId": "xcwDglMKZLvQ97jc",
+        "projectId": "59P8vIeQ1X2EvJj1"
+      }
+    ],
+    "activeVersion": null,
+    "tags": []
+  }
+]

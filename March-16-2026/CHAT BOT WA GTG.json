@@ -1,0 +1,170 @@
+[
+  {
+    "updatedAt": "2026-03-15T15:31:02.556Z",
+    "createdAt": "2026-03-15T09:11:53.977Z",
+    "id": "E8zmKa2hQdeYz4OL",
+    "name": "CHAT BOT WA GTG",
+    "active": false,
+    "isArchived": false,
+    "nodes": [
+      {
+        "parameters": {},
+        "type": "@devlikeapro/n8n-nodes-waha.wahaTrigger",
+        "typeVersion": 202502,
+        "position": [
+          -432,
+          320
+        ],
+        "id": "35fe273c-1ec5-4c95-89ef-f73a6d8960fb",
+        "name": "WAHA Trigger",
+        "webhookId": "c60b36c1-3218-45e6-8f88-b3f5e9bc15c7"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.chatInput }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-chutes.chutesAIAgent",
+        "typeVersion": 1,
+        "position": [
+          112,
+          448
+        ],
+        "id": "84e25a09-c625-4903-86ed-0ee6e2b66701",
+        "name": "Chutes AI Agent"
+      },
+      {
+        "parameters": {
+          "chuteUrl": "https://chutes-openai-gpt-oss-20b.chutes.ai",
+          "model": "openai/gpt-oss-20b",
+          "options": {}
+        },
+        "type": "n8n-nodes-chutes.chutesChatModel",
+        "typeVersion": 1,
+        "position": [
+          112,
+          704
+        ],
+        "id": "706d7ac4-2875-4be7-a6ec-c578f369d8a0",
+        "name": "Chutes Chat Model",
+        "credentials": {
+          "chutesApi": {
+            "id": "QZqYhb1zoBDTsaJ4",
+            "name": "Chutes account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "Chatting",
+          "operation": "Send Text",
+          "session": "={{ $('WAHA Trigger').item.json.session }}",
+          "chatId": "={{ $('WAHA Trigger').item.json.payload.from }}",
+          "text": "={{ $json.output }}",
+          "linkPreview": false,
+          "requestOptions": {}
+        },
+        "type": "@devlikeapro/n8n-nodes-waha.WAHA",
+        "typeVersion": 202502,
+        "position": [
+          528,
+          448
+        ],
+        "id": "90f761a9-ce6f-43a3-9ffe-0b98aee6161e",
+        "name": "Send a text message",
+        "credentials": {
+          "wahaApi": {
+            "id": "8tQlouUSJ0Sh5YDY",
+            "name": "WAHA GTG BOT"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+        "typeVersion": 1.3,
+        "position": [
+          208,
+          720
+        ],
+        "id": "f2210989-f708-43f9-b9a3-713bcfd43ce9",
+        "name": "Simple Memory"
+      }
+    ],
+    "connections": {
+      "WAHA Trigger": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Chutes AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [],
+          [],
+          []
+        ]
+      },
+      "Chutes Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Chutes AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Chutes AI Agent": {
+        "main": [
+          [
+            {
+              "node": "Send a text message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Simple Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "Chutes AI Agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false
+    },
+    "staticData": null,
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "pinData": {},
+    "versionId": "ae33ea0a-bffa-404e-b6c2-b303ca118fb7",
+    "activeVersionId": null,
+    "triggerCount": 1,
+    "shared": [
+      {
+        "updatedAt": "2026-03-15T09:11:53.980Z",
+        "createdAt": "2026-03-15T09:11:53.980Z",
+        "role": "workflow:owner",
+        "workflowId": "E8zmKa2hQdeYz4OL",
+        "projectId": "59P8vIeQ1X2EvJj1"
+      }
+    ],
+    "activeVersion": null,
+    "tags": []
+  }
+]

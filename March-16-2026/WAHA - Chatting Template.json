@@ -1,0 +1,426 @@
+[
+  {
+    "updatedAt": "2026-03-15T10:21:47.993Z",
+    "createdAt": "2026-03-15T10:20:32.603Z",
+    "id": "XOEvrsmcGmg4FQ59",
+    "name": "WAHA - Chatting Template",
+    "active": false,
+    "isArchived": false,
+    "nodes": [
+      {
+        "parameters": {},
+        "id": "bccf6337-a569-4e94-907d-1ed7e33ac436",
+        "name": "WAHA Trigger",
+        "type": "@devlikeapro/n8n-nodes-waha.wahaTrigger",
+        "typeVersion": 202409,
+        "position": [
+          -528,
+          352
+        ],
+        "webhookId": "71251449-2644-4325-8ba7-2a1550a81fb4"
+      },
+      {
+        "parameters": {
+          "content": "## Reply \"pong\" on \"ping\" text",
+          "height": 382.58335299812256,
+          "width": 568.1572184210546,
+          "color": 4
+        },
+        "id": "ac5e103c-d34c-47a4-a7b6-c4e897465682",
+        "name": "Sticky Note5",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          0,
+          240
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "f827f7f8-d40c-4d97-9677-9e62d99c7e7a",
+                "leftValue": "={{ $json.payload.body }}",
+                "rightValue": "ping",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              },
+              {
+                "id": "9dc60cdc-5d7b-44ab-b959-3cec77632855",
+                "leftValue": "={{ $json.payload.body }}",
+                "rightValue": "Ping",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "id": "5e996ca5-7859-4eb4-b9ec-304afc174bd5",
+        "name": "body=ping",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.1,
+        "position": [
+          48,
+          400
+        ]
+      },
+      {
+        "parameters": {},
+        "id": "9536b045-27c9-4f22-928a-d685c85ff511",
+        "name": "Do nothing1",
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          352,
+          480
+        ]
+      },
+      {
+        "parameters": {
+          "resource": "Chatting",
+          "operation": "Send Text",
+          "text": "pong",
+          "requestOptions": {}
+        },
+        "id": "4da5d6cb-d485-48bb-8d8c-a837b6d2e3ef",
+        "name": "Send \"pong\"",
+        "type": "@devlikeapro/n8n-nodes-waha.WAHA",
+        "typeVersion": 202409,
+        "position": [
+          352,
+          272
+        ]
+      },
+      {
+        "parameters": {
+          "resource": "Chatting",
+          "operation": "Send Seen",
+          "participant": "",
+          "requestOptions": {}
+        },
+        "id": "b04d8a05-8c04-4aa1-b150-f461b662733a",
+        "name": "Send Seen",
+        "type": "@devlikeapro/n8n-nodes-waha.WAHA",
+        "typeVersion": 202409,
+        "position": [
+          48,
+          64
+        ],
+        "credentials": {
+          "wahaApi": {
+            "id": "8tQlouUSJ0Sh5YDY",
+            "name": "WAHA GTG BOT"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "## Always Send Seen",
+          "height": 227.5411734823075,
+          "width": 568.1572184210546,
+          "color": 4
+        },
+        "id": "856be102-cd2a-4dd8-a8e3-d4c303739f29",
+        "name": "Sticky Note6",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ]
+      },
+      {
+        "parameters": {
+          "content": "## Send Image on \"image\" text",
+          "height": 399.4096946499026,
+          "width": 568.1572184210546,
+          "color": 4
+        },
+        "id": "7be1a501-ae7a-451a-a803-cd90efd07843",
+        "name": "Sticky Note7",
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          0,
+          672
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 1
+            },
+            "conditions": [
+              {
+                "id": "f827f7f8-d40c-4d97-9677-9e62d99c7e7a",
+                "leftValue": "={{ $json.payload.body }}",
+                "rightValue": "image",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals"
+                }
+              },
+              {
+                "id": "9dc60cdc-5d7b-44ab-b959-3cec77632855",
+                "leftValue": "={{ $json.payload.body }}",
+                "rightValue": "Image",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {}
+        },
+        "id": "88d5e5e8-af05-4777-8938-eb2fb7a4bc9a",
+        "name": "body=image",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.1,
+        "position": [
+          64,
+          784
+        ]
+      },
+      {
+        "parameters": {
+          "resource": "Chatting",
+          "operation": "Send Image",
+          "caption": "Check this",
+          "requestOptions": {}
+        },
+        "id": "3f88f715-d4bc-4805-abea-8c30ef64b83e",
+        "name": "Send Image",
+        "type": "@devlikeapro/n8n-nodes-waha.WAHA",
+        "typeVersion": 202409,
+        "position": [
+          368,
+          752
+        ],
+        "credentials": {
+          "wahaApi": {
+            "id": "8tQlouUSJ0Sh5YDY",
+            "name": "WAHA GTG BOT"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 1
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "true",
+                      "rightValue": "true",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      },
+                      "id": "23056cc1-0b44-4da1-95ea-05383e11a260"
+                    }
+                  ],
+                  "combinator": "and"
+                }
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 1
+                  },
+                  "conditions": [
+                    {
+                      "id": "242f1ea8-0d3f-491c-a60b-1ac78c82488f",
+                      "leftValue": "true",
+                      "rightValue": "true",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                }
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 1
+                  },
+                  "conditions": [
+                    {
+                      "id": "4f550e8f-c7d2-4c22-8fbb-f729816db6b7",
+                      "leftValue": "1",
+                      "rightValue": "1",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                }
+              }
+            ]
+          },
+          "options": {
+            "allMatchingOutputs": true
+          }
+        },
+        "id": "e71e7a6b-3a82-4fc4-aab9-b871684bd2ee",
+        "name": "Switch",
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.1,
+        "position": [
+          -208,
+          352
+        ],
+        "alwaysOutputData": false,
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {},
+        "id": "7de62cd9-5790-4368-b4d9-1ba67c228589",
+        "name": "Do nothing",
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          368,
+          912
+        ]
+      }
+    ],
+    "connections": {
+      "WAHA Trigger": {
+        "main": [
+          [],
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "body=ping": {
+        "main": [
+          [
+            {
+              "node": "Send \"pong\"",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Do nothing1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "body=image": {
+        "main": [
+          [
+            {
+              "node": "Send Image",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Do nothing",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Send Seen",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "body=ping",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "body=image",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false
+    },
+    "staticData": null,
+    "meta": null,
+    "pinData": {},
+    "versionId": "45c882c9-086a-4e8b-9cf1-246d0428a2a7",
+    "activeVersionId": null,
+    "triggerCount": 0,
+    "shared": [
+      {
+        "updatedAt": "2026-03-15T10:20:32.605Z",
+        "createdAt": "2026-03-15T10:20:32.605Z",
+        "role": "workflow:owner",
+        "workflowId": "XOEvrsmcGmg4FQ59",
+        "projectId": "59P8vIeQ1X2EvJj1"
+      }
+    ],
+    "activeVersion": null,
+    "tags": []
+  }
+]

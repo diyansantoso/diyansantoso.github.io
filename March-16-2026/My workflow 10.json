@@ -1,0 +1,143 @@
+[
+  {
+    "updatedAt": "2026-03-15T02:37:32.000Z",
+    "createdAt": "2026-03-13T00:40:08.327Z",
+    "id": "W6E3RAduzmIeID3Q",
+    "name": "My workflow 10",
+    "active": false,
+    "isArchived": true,
+    "nodes": [
+      {
+        "parameters": {},
+        "type": "@devlikeapro/n8n-nodes-waha.wahaTrigger",
+        "typeVersion": 202502,
+        "position": [
+          -96,
+          0
+        ],
+        "id": "657458d4-ab62-4cdc-9e82-c779d528f0c4",
+        "name": "WAHA Trigger",
+        "webhookId": "f09a83b8-3d3c-45b5-b32d-4583cdcdb55d"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.session }}\n\nkamu sebgai assiatnt\n\nnama kamu boy\numur 33 tahun\n",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3.1,
+        "position": [
+          368,
+          16
+        ],
+        "id": "6773ecc6-525a-4745-b0f2-ba7f24390e01",
+        "name": "AI Agent"
+      },
+      {
+        "parameters": {
+          "model": "deepseek/deepseek-r1",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+        "typeVersion": 1,
+        "position": [
+          256,
+          224
+        ],
+        "id": "88913208-e6f5-42eb-9018-37551b13a49a",
+        "name": "OpenRouter Chat Model",
+        "credentials": {
+          "openRouterApi": {
+            "id": "T5D9NorLgWRYYSiu",
+            "name": "OpenRouter account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "Chatting",
+          "operation": "Send Text",
+          "session": "={{ $('WAHA Trigger').item.json.session }}",
+          "chatId": "={{ $('WAHA Trigger').item.json.payload.from }}",
+          "text": "={{ $json.output }}",
+          "requestOptions": {}
+        },
+        "type": "@devlikeapro/n8n-nodes-waha.WAHA",
+        "typeVersion": 202502,
+        "position": [
+          720,
+          16
+        ],
+        "id": "b8a5f603-d199-4b1f-bcef-39af28f35b3e",
+        "name": "Send a text message",
+        "credentials": {
+          "wahaApi": {
+            "id": "VFiJPVGqbKmeAkxC",
+            "name": "WAHA account 2"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "AI Agent": {
+        "main": [
+          [
+            {
+              "node": "Send a text message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "WAHA Trigger": {
+        "main": [
+          [],
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenRouter Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false
+    },
+    "staticData": null,
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "pinData": {},
+    "versionId": "11a06991-30c3-448a-89c8-a059110c7220",
+    "activeVersionId": null,
+    "triggerCount": 0,
+    "shared": [
+      {
+        "updatedAt": "2026-03-13T00:40:08.335Z",
+        "createdAt": "2026-03-13T00:40:08.335Z",
+        "role": "workflow:owner",
+        "workflowId": "W6E3RAduzmIeID3Q",
+        "projectId": "59P8vIeQ1X2EvJj1"
+      }
+    ],
+    "activeVersion": null,
+    "tags": []
+  }
+]

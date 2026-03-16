@@ -1,0 +1,1035 @@
+[
+  {
+    "updatedAt": "2026-03-15T09:08:02.421Z",
+    "createdAt": "2026-03-15T02:27:20.872Z",
+    "id": "vee32KNxB1zPIrLy",
+    "name": "Auto Generate & Post Artikel ke WordPress",
+    "active": true,
+    "isArchived": false,
+    "nodes": [
+      {
+        "parameters": {
+          "updates": [
+            "message"
+          ],
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegramTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -320,
+          -176
+        ],
+        "id": "c0312386-78cf-4837-81df-0364a17ae534",
+        "name": "Telegram Trigger",
+        "webhookId": "6aff8f45-fef0-455d-922a-97aa1889c412",
+        "credentials": {
+          "telegramApi": {
+            "id": "eUfYuh2Hcg01m0KA",
+            "name": "Telegram account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}{{ $('When chat message received').item.json.sessionId }}",
+          "text": "=✅ Artikel berhasil dipublish!\n\n📝 Judul: {{ $('Ekstrak Konten').item.json.article_title }}\n🔗 Link: {{ $json.link }}\n📅 Tanggal: {{ new Date().toLocaleString('id-ID') }}",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          1696,
+          16
+        ],
+        "id": "04e8e02b-2174-4781-ad6f-6619eb909203",
+        "name": "Telegram",
+        "webhookId": "e041b885-21d3-42df-8bd9-afb22baf429e",
+        "credentials": {
+          "telegramApi": {
+            "id": "eUfYuh2Hcg01m0KA",
+            "name": "Telegram account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "fa08ac5d-6b85-4e87-b5ca-7716560f129c",
+                "name": "article_title",
+                "value": "={{ $json.output.match(/JUDUL: (.+)/)?.[1] || 'Artikel Baru' }}",
+                "type": "string"
+              },
+              {
+                "id": "bbee5fcd-949e-4bbb-80c8-13034e1b4cf8",
+                "name": "article_content",
+                "value": "={{ $json.output.match(/KONTEN: ([\\s\\S]+?)(?=GAMBAR:|$)/)?.[1]?.trim().replace(/\\*\\*/g, '').replace(/^JUDUL:.*?\\n/gm, '').replace(/^KONTEN:\\s*/gm, '').replace(/^GAMBAR:.*$/gm, '').trim() || $json.output.replace(/\\*\\*/g, '').replace(/^JUDUL:.*?\\n/gm, '').replace(/^KONTEN:\\s*/gm, '').replace(/^GAMBAR:.*$/gm, '').trim() }}",
+                "type": "string"
+              },
+              {
+                "id": "a7d7e001-44ee-45e7-8091-b44b04de1187",
+                "name": "image_description",
+                "value": "={{ $json.output.match(/GAMBAR: (.+)/)?.[1] || $json.prompt }}",
+                "type": "string"
+              },
+              {
+                "id": "b8fea5ae-4d30-4e5a-9407-c6dcd5f55603",
+                "name": "article_tags",
+                "value": "={{ $json.output.match(/TAGS: (.+)/)?.[1] || 'AI-Generated, Blog, Article' }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          256,
+          16
+        ],
+        "id": "ceee1471-c2aa-489d-b703-ee80c53a1e98",
+        "name": "Ekstrak Konten"
+      },
+      {
+        "parameters": {
+          "content": "## Link ##\n[Tutorial cara pakai](https://youtu.be/M-JCbh493WI)\n\n[Plugin n8n WordPress](https://drive.google.com/file/d/17noe0ghyeTBu_QfELXdQ_eYmJsxdRIcq/view?usp=sharing)\n\n[referensi](https://www.youtube.com/watch?v=xioMvEWt-NE&list=PLAxsSMKI9zbSmJeYBgniMQEcoLxrFzFeW)\n",
+          "height": 164,
+          "width": 436,
+          "color": 4
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          2560,
+          -112
+        ],
+        "typeVersion": 1,
+        "id": "48cdccdc-b1c4-42e0-85a5-8594de26be5c",
+        "name": "Sticky Note1"
+      },
+      {
+        "parameters": {
+          "content": "## Catatan ##\nSilahkan atur kembali bagian credentials dan API nya\n\napi chutes :\ncpk_6f1514992e9e414d82862e2cce623ffa.9fc77daccdea5b69b631c41d6f6cf3a8.bvuvd2bsGlxCrsvyb6phSUTWMCk2Iq9a",
+          "height": 164,
+          "width": 380
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          2576,
+          160
+        ],
+        "typeVersion": 1,
+        "id": "cf49aeb6-e23d-44e4-b5e4-7fc9a4fe8773",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {
+          "chuteUrl": "https://chutes-openai-gpt-oss-20b.chutes.ai",
+          "model": "openai/gpt-oss-20b",
+          "options": {}
+        },
+        "type": "n8n-nodes-chutes.chutesChatModel",
+        "typeVersion": 1,
+        "position": [
+          -64,
+          272
+        ],
+        "id": "d2a754bf-21d3-48b3-bebd-9b501e14bed3",
+        "name": "Chutes Chat Model",
+        "credentials": {
+          "chutesApi": {
+            "id": "QZqYhb1zoBDTsaJ4",
+            "name": "Chutes account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.message.text }}{{ $json.chatInput }}",
+          "options": {
+            "systemMessage": "Kamu adalah content writer profesional. Berdasarkan topik yang diberikan, buatkan:\n1. Judul artikel yang menarik dan SEO-friendly\n2. Konten artikel lengkap dengan struktur:\n   - Pendahuluan\n   - Isi artikel dengan beberapa sub-heading\n   - Kesimpulan\n3. buatkan prompt Deskripsi gambar yang akan digunakan untuk artikel\n4. Tags yang relevan untuk artikel (5-8 tags)\nFormat output:\nJUDUL: [judul artikel]\nKONTEN: [isi artikel lengkap dalam format HTML yang bersih tanpa tanda ** berlebihan]\nGAMBAR: [deskripsi gambar untuk AI generation]\nTAGS: [tag1, tag2, tag3, tag4, tag5]\n\n\nPenting: \n- Untuk bagian KONTEN, gunakan format HTML yang proper seperti <h2>, <h3>, <p>, <ul>, <li> dan hindari penggunaan tanda ** atau markdown formatting\n- Untuk TAGS, berikan 5-8 tags yang relevan dengan topik artikel, pisahkan dengan koma\n- Buat konten yang siap dipublikasi langsung ke WordPress"
+          }
+        },
+        "type": "n8n-nodes-chutes.chutesAIAgent",
+        "typeVersion": 1,
+        "position": [
+          -64,
+          16
+        ],
+        "id": "bdd299fc-9d0d-48ff-a55c-8d8b9ed5b7ec",
+        "name": "Chutes AI Agent"
+      },
+      {
+        "parameters": {
+          "resource": "imageGeneration",
+          "chuteUrl": "https://chutes-hunyuan-image-3.chutes.ai",
+          "prompt": "={\n \"model\": \"flux\",\n \"messages\": [\n  {\n   \"role\": \"user\",\n   \"content\": \"generate image: {{$json.image_description}}\"\n  }\n ]\n}",
+          "additionalOptions": {
+            "responseFormat": "b64_json"
+          }
+        },
+        "type": "n8n-nodes-chutes.chutes",
+        "typeVersion": 1,
+        "position": [
+          464,
+          16
+        ],
+        "id": "4acb02f3-fee4-4aa2-9338-a9001d00b04c",
+        "name": "Generate images",
+        "credentials": {
+          "chutesApi": {
+            "id": "QZqYhb1zoBDTsaJ4",
+            "name": "Chutes account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "title": "={{ $('Ekstrak Konten').item.json.article_title }}",
+          "additionalFields": {
+            "content": "={{ $('Ekstrak Konten').item.json.article_content }}",
+            "status": "publish",
+            "format": "standard",
+            "postTemplate": {
+              "values": {}
+            }
+          }
+        },
+        "type": "n8n-nodes-base.wordpress",
+        "typeVersion": 1,
+        "position": [
+          1200,
+          16
+        ],
+        "id": "ec61b7d5-c87a-420c-b082-a307d439114d",
+        "name": "Create a post",
+        "credentials": {
+          "wordpressApi": {
+            "id": "gtHH8jIkbu6EoyVL",
+            "name": "irepair gtg computer"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "content": "## I'm a note \nimgbed_Qw8f8m15v6qqMIdLgOM4qNjGpezC66dR\n\nhttps://img.gtg.my.id/systemConfig#security"
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "position": [
+          2624,
+          464
+        ],
+        "typeVersion": 1,
+        "id": "38676af8-ea52-49af-924c-980b8a4364f3",
+        "name": "Sticky Note2"
+      },
+      {
+        "parameters": {
+          "operation": "resize",
+          "options": {
+            "format": "webp"
+          }
+        },
+        "type": "n8n-nodes-base.editImage",
+        "typeVersion": 1,
+        "position": [
+          688,
+          16
+        ],
+        "id": "53c31172-8a2c-43fa-9bfe-b68e57626bd0",
+        "name": "Edit Image"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://irepair.gtgcomputer.my.id/wp-json/wp/v2/media",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "wordpressApi",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "content-disposition",
+                "value": "=attachment; filename={{ $binary.data.fileName }}.{{ $binary.data.fileExtension }}"
+              },
+              {
+                "name": "content-type",
+                "value": "={{ $binary.data.mimeType }}"
+              }
+            ]
+          },
+          "sendBody": true,
+          "contentType": "binaryData",
+          "inputDataFieldName": "data",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          928,
+          16
+        ],
+        "id": "a5653a49-b0d3-4ceb-9d9f-71ca3942e1b2",
+        "name": "Upload Media to Wordpress",
+        "credentials": {
+          "wordpressApi": {
+            "id": "gtHH8jIkbu6EoyVL",
+            "name": "irepair gtg computer"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://irepair.gtgcomputer.my.id/wp-json/wp/v2/media/{{ $json.id }}",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "wordpressApi",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "title",
+                "value": "Lamp"
+              },
+              {
+                "name": "slug",
+                "value": "Lamp"
+              },
+              {
+                "name": "alt_text",
+                "value": "Lamp"
+              },
+              {
+                "name": "caption",
+                "value": "Lamp"
+              },
+              {
+                "name": "description",
+                "value": "Lamp"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          1856,
+          544
+        ],
+        "id": "78474361-45be-436b-b09f-89b4d15c10f8",
+        "name": "Update image meta data",
+        "credentials": {
+          "wordpressApi": {
+            "id": "gtHH8jIkbu6EoyVL",
+            "name": "irepair gtg computer"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://irepair.gtgcomputer.my.id/wp-json/wp/v2/posts/{{ $('Create a post').item.json.id}}",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "wordpressApi",
+          "sendBody": true,
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "featured_media",
+                "value": "={{ $('Upload Media to Wordpress').item.json.id }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          1472,
+          16
+        ],
+        "id": "b5f0c1f5-4489-4e73-bde4-9e6f12b0d484",
+        "name": "Set Featured Image",
+        "credentials": {
+          "wordpressApi": {
+            "id": "gtHH8jIkbu6EoyVL",
+            "name": "irepair gtg computer"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "public": true,
+          "availableInChat": true,
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+        "typeVersion": 1.4,
+        "position": [
+          -320,
+          16
+        ],
+        "id": "7421fa10-c8cc-47d8-b167-311b944352f5",
+        "name": "When chat message received",
+        "webhookId": "3b16a908-0c14-4cc6-8724-0a0c50cb163a"
+      }
+    ],
+    "connections": {
+      "Telegram Trigger": {
+        "main": [
+          [
+            {
+              "node": "Chutes AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Ekstrak Konten": {
+        "main": [
+          [
+            {
+              "node": "Generate images",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Chutes Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Chutes AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Chutes AI Agent": {
+        "main": [
+          [
+            {
+              "node": "Ekstrak Konten",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate images": {
+        "main": [
+          [
+            {
+              "node": "Edit Image",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create a post": {
+        "main": [
+          [
+            {
+              "node": "Set Featured Image",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Image": {
+        "main": [
+          [
+            {
+              "node": "Upload Media to Wordpress",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Upload Media to Wordpress": {
+        "main": [
+          [
+            {
+              "node": "Create a post",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update image meta data": {
+        "main": [
+          []
+        ]
+      },
+      "Set Featured Image": {
+        "main": [
+          [
+            {
+              "node": "Telegram",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Telegram": {
+        "main": [
+          []
+        ]
+      },
+      "When chat message received": {
+        "main": [
+          [
+            {
+              "node": "Chutes AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false
+    },
+    "staticData": null,
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "pinData": {},
+    "versionId": "b913efc1-b945-43be-ba72-13faba76075f",
+    "activeVersionId": "b913efc1-b945-43be-ba72-13faba76075f",
+    "triggerCount": 2,
+    "shared": [
+      {
+        "updatedAt": "2026-03-15T02:27:20.881Z",
+        "createdAt": "2026-03-15T02:27:20.881Z",
+        "role": "workflow:owner",
+        "workflowId": "vee32KNxB1zPIrLy",
+        "projectId": "59P8vIeQ1X2EvJj1"
+      }
+    ],
+    "activeVersion": {
+      "updatedAt": "2026-03-15T15:31:18.000Z",
+      "createdAt": "2026-03-15T09:08:02.422Z",
+      "versionId": "b913efc1-b945-43be-ba72-13faba76075f",
+      "workflowId": "vee32KNxB1zPIrLy",
+      "nodes": [
+        {
+          "parameters": {
+            "updates": [
+              "message"
+            ],
+            "additionalFields": {}
+          },
+          "type": "n8n-nodes-base.telegramTrigger",
+          "typeVersion": 1.2,
+          "position": [
+            -320,
+            -176
+          ],
+          "id": "c0312386-78cf-4837-81df-0364a17ae534",
+          "name": "Telegram Trigger",
+          "webhookId": "6aff8f45-fef0-455d-922a-97aa1889c412",
+          "credentials": {
+            "telegramApi": {
+              "id": "eUfYuh2Hcg01m0KA",
+              "name": "Telegram account"
+            }
+          }
+        },
+        {
+          "parameters": {
+            "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}{{ $('When chat message received').item.json.sessionId }}",
+            "text": "=✅ Artikel berhasil dipublish!\n\n📝 Judul: {{ $('Ekstrak Konten').item.json.article_title }}\n🔗 Link: {{ $json.link }}\n📅 Tanggal: {{ new Date().toLocaleString('id-ID') }}",
+            "additionalFields": {
+              "appendAttribution": false
+            }
+          },
+          "type": "n8n-nodes-base.telegram",
+          "typeVersion": 1.2,
+          "position": [
+            1696,
+            16
+          ],
+          "id": "04e8e02b-2174-4781-ad6f-6619eb909203",
+          "name": "Telegram",
+          "webhookId": "e041b885-21d3-42df-8bd9-afb22baf429e",
+          "credentials": {
+            "telegramApi": {
+              "id": "eUfYuh2Hcg01m0KA",
+              "name": "Telegram account"
+            }
+          }
+        },
+        {
+          "parameters": {
+            "assignments": {
+              "assignments": [
+                {
+                  "id": "fa08ac5d-6b85-4e87-b5ca-7716560f129c",
+                  "name": "article_title",
+                  "value": "={{ $json.output.match(/JUDUL: (.+)/)?.[1] || 'Artikel Baru' }}",
+                  "type": "string"
+                },
+                {
+                  "id": "bbee5fcd-949e-4bbb-80c8-13034e1b4cf8",
+                  "name": "article_content",
+                  "value": "={{ $json.output.match(/KONTEN: ([\\s\\S]+?)(?=GAMBAR:|$)/)?.[1]?.trim().replace(/\\*\\*/g, '').replace(/^JUDUL:.*?\\n/gm, '').replace(/^KONTEN:\\s*/gm, '').replace(/^GAMBAR:.*$/gm, '').trim() || $json.output.replace(/\\*\\*/g, '').replace(/^JUDUL:.*?\\n/gm, '').replace(/^KONTEN:\\s*/gm, '').replace(/^GAMBAR:.*$/gm, '').trim() }}",
+                  "type": "string"
+                },
+                {
+                  "id": "a7d7e001-44ee-45e7-8091-b44b04de1187",
+                  "name": "image_description",
+                  "value": "={{ $json.output.match(/GAMBAR: (.+)/)?.[1] || $json.prompt }}",
+                  "type": "string"
+                },
+                {
+                  "id": "b8fea5ae-4d30-4e5a-9407-c6dcd5f55603",
+                  "name": "article_tags",
+                  "value": "={{ $json.output.match(/TAGS: (.+)/)?.[1] || 'AI-Generated, Blog, Article' }}",
+                  "type": "string"
+                }
+              ]
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.set",
+          "typeVersion": 3.4,
+          "position": [
+            256,
+            16
+          ],
+          "id": "ceee1471-c2aa-489d-b703-ee80c53a1e98",
+          "name": "Ekstrak Konten"
+        },
+        {
+          "parameters": {
+            "content": "## Link ##\n[Tutorial cara pakai](https://youtu.be/M-JCbh493WI)\n\n[Plugin n8n WordPress](https://drive.google.com/file/d/17noe0ghyeTBu_QfELXdQ_eYmJsxdRIcq/view?usp=sharing)\n\n[referensi](https://www.youtube.com/watch?v=xioMvEWt-NE&list=PLAxsSMKI9zbSmJeYBgniMQEcoLxrFzFeW)\n",
+            "height": 164,
+            "width": 436,
+            "color": 4
+          },
+          "type": "n8n-nodes-base.stickyNote",
+          "position": [
+            2560,
+            -112
+          ],
+          "typeVersion": 1,
+          "id": "48cdccdc-b1c4-42e0-85a5-8594de26be5c",
+          "name": "Sticky Note1"
+        },
+        {
+          "parameters": {
+            "content": "## Catatan ##\nSilahkan atur kembali bagian credentials dan API nya\n\napi chutes :\ncpk_6f1514992e9e414d82862e2cce623ffa.9fc77daccdea5b69b631c41d6f6cf3a8.bvuvd2bsGlxCrsvyb6phSUTWMCk2Iq9a",
+            "height": 164,
+            "width": 380
+          },
+          "type": "n8n-nodes-base.stickyNote",
+          "position": [
+            2576,
+            160
+          ],
+          "typeVersion": 1,
+          "id": "cf49aeb6-e23d-44e4-b5e4-7fc9a4fe8773",
+          "name": "Sticky Note"
+        },
+        {
+          "parameters": {
+            "chuteUrl": "https://chutes-openai-gpt-oss-20b.chutes.ai",
+            "model": "openai/gpt-oss-20b",
+            "options": {}
+          },
+          "type": "n8n-nodes-chutes.chutesChatModel",
+          "typeVersion": 1,
+          "position": [
+            -64,
+            272
+          ],
+          "id": "d2a754bf-21d3-48b3-bebd-9b501e14bed3",
+          "name": "Chutes Chat Model",
+          "credentials": {
+            "chutesApi": {
+              "id": "QZqYhb1zoBDTsaJ4",
+              "name": "Chutes account"
+            }
+          }
+        },
+        {
+          "parameters": {
+            "promptType": "define",
+            "text": "={{ $json.message.text }}{{ $json.chatInput }}",
+            "options": {
+              "systemMessage": "Kamu adalah content writer profesional. Berdasarkan topik yang diberikan, buatkan:\n1. Judul artikel yang menarik dan SEO-friendly\n2. Konten artikel lengkap dengan struktur:\n   - Pendahuluan\n   - Isi artikel dengan beberapa sub-heading\n   - Kesimpulan\n3. buatkan prompt Deskripsi gambar yang akan digunakan untuk artikel\n4. Tags yang relevan untuk artikel (5-8 tags)\nFormat output:\nJUDUL: [judul artikel]\nKONTEN: [isi artikel lengkap dalam format HTML yang bersih tanpa tanda ** berlebihan]\nGAMBAR: [deskripsi gambar untuk AI generation]\nTAGS: [tag1, tag2, tag3, tag4, tag5]\n\n\nPenting: \n- Untuk bagian KONTEN, gunakan format HTML yang proper seperti <h2>, <h3>, <p>, <ul>, <li> dan hindari penggunaan tanda ** atau markdown formatting\n- Untuk TAGS, berikan 5-8 tags yang relevan dengan topik artikel, pisahkan dengan koma\n- Buat konten yang siap dipublikasi langsung ke WordPress"
+            }
+          },
+          "type": "n8n-nodes-chutes.chutesAIAgent",
+          "typeVersion": 1,
+          "position": [
+            -64,
+            16
+          ],
+          "id": "bdd299fc-9d0d-48ff-a55c-8d8b9ed5b7ec",
+          "name": "Chutes AI Agent"
+        },
+        {
+          "parameters": {
+            "resource": "imageGeneration",
+            "chuteUrl": "https://chutes-hunyuan-image-3.chutes.ai",
+            "prompt": "={\n \"model\": \"flux\",\n \"messages\": [\n  {\n   \"role\": \"user\",\n   \"content\": \"generate image: {{$json.image_description}}\"\n  }\n ]\n}",
+            "additionalOptions": {
+              "responseFormat": "b64_json"
+            }
+          },
+          "type": "n8n-nodes-chutes.chutes",
+          "typeVersion": 1,
+          "position": [
+            464,
+            16
+          ],
+          "id": "4acb02f3-fee4-4aa2-9338-a9001d00b04c",
+          "name": "Generate images",
+          "credentials": {
+            "chutesApi": {
+              "id": "QZqYhb1zoBDTsaJ4",
+              "name": "Chutes account"
+            }
+          }
+        },
+        {
+          "parameters": {
+            "title": "={{ $('Ekstrak Konten').item.json.article_title }}",
+            "additionalFields": {
+              "content": "={{ $('Ekstrak Konten').item.json.article_content }}",
+              "status": "publish",
+              "format": "standard",
+              "postTemplate": {
+                "values": {}
+              }
+            }
+          },
+          "type": "n8n-nodes-base.wordpress",
+          "typeVersion": 1,
+          "position": [
+            1200,
+            16
+          ],
+          "id": "ec61b7d5-c87a-420c-b082-a307d439114d",
+          "name": "Create a post",
+          "credentials": {
+            "wordpressApi": {
+              "id": "gtHH8jIkbu6EoyVL",
+              "name": "irepair gtg computer"
+            }
+          }
+        },
+        {
+          "parameters": {
+            "content": "## I'm a note \nimgbed_Qw8f8m15v6qqMIdLgOM4qNjGpezC66dR\n\nhttps://img.gtg.my.id/systemConfig#security"
+          },
+          "type": "n8n-nodes-base.stickyNote",
+          "position": [
+            2624,
+            464
+          ],
+          "typeVersion": 1,
+          "id": "38676af8-ea52-49af-924c-980b8a4364f3",
+          "name": "Sticky Note2"
+        },
+        {
+          "parameters": {
+            "operation": "resize",
+            "options": {
+              "format": "webp"
+            }
+          },
+          "type": "n8n-nodes-base.editImage",
+          "typeVersion": 1,
+          "position": [
+            688,
+            16
+          ],
+          "id": "53c31172-8a2c-43fa-9bfe-b68e57626bd0",
+          "name": "Edit Image"
+        },
+        {
+          "parameters": {
+            "method": "POST",
+            "url": "https://irepair.gtgcomputer.my.id/wp-json/wp/v2/media",
+            "authentication": "predefinedCredentialType",
+            "nodeCredentialType": "wordpressApi",
+            "sendHeaders": true,
+            "headerParameters": {
+              "parameters": [
+                {
+                  "name": "content-disposition",
+                  "value": "=attachment; filename={{ $binary.data.fileName }}.{{ $binary.data.fileExtension }}"
+                },
+                {
+                  "name": "content-type",
+                  "value": "={{ $binary.data.mimeType }}"
+                }
+              ]
+            },
+            "sendBody": true,
+            "contentType": "binaryData",
+            "inputDataFieldName": "data",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.4,
+          "position": [
+            928,
+            16
+          ],
+          "id": "a5653a49-b0d3-4ceb-9d9f-71ca3942e1b2",
+          "name": "Upload Media to Wordpress",
+          "credentials": {
+            "wordpressApi": {
+              "id": "gtHH8jIkbu6EoyVL",
+              "name": "irepair gtg computer"
+            }
+          }
+        },
+        {
+          "parameters": {
+            "method": "POST",
+            "url": "=https://irepair.gtgcomputer.my.id/wp-json/wp/v2/media/{{ $json.id }}",
+            "authentication": "predefinedCredentialType",
+            "nodeCredentialType": "wordpressApi",
+            "sendBody": true,
+            "bodyParameters": {
+              "parameters": [
+                {
+                  "name": "title",
+                  "value": "Lamp"
+                },
+                {
+                  "name": "slug",
+                  "value": "Lamp"
+                },
+                {
+                  "name": "alt_text",
+                  "value": "Lamp"
+                },
+                {
+                  "name": "caption",
+                  "value": "Lamp"
+                },
+                {
+                  "name": "description",
+                  "value": "Lamp"
+                }
+              ]
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.4,
+          "position": [
+            1856,
+            544
+          ],
+          "id": "78474361-45be-436b-b09f-89b4d15c10f8",
+          "name": "Update image meta data",
+          "credentials": {
+            "wordpressApi": {
+              "id": "gtHH8jIkbu6EoyVL",
+              "name": "irepair gtg computer"
+            }
+          }
+        },
+        {
+          "parameters": {
+            "method": "POST",
+            "url": "=https://irepair.gtgcomputer.my.id/wp-json/wp/v2/posts/{{ $('Create a post').item.json.id}}",
+            "authentication": "predefinedCredentialType",
+            "nodeCredentialType": "wordpressApi",
+            "sendBody": true,
+            "bodyParameters": {
+              "parameters": [
+                {
+                  "name": "featured_media",
+                  "value": "={{ $('Upload Media to Wordpress').item.json.id }}"
+                }
+              ]
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.4,
+          "position": [
+            1472,
+            16
+          ],
+          "id": "b5f0c1f5-4489-4e73-bde4-9e6f12b0d484",
+          "name": "Set Featured Image",
+          "credentials": {
+            "wordpressApi": {
+              "id": "gtHH8jIkbu6EoyVL",
+              "name": "irepair gtg computer"
+            }
+          }
+        },
+        {
+          "parameters": {
+            "public": true,
+            "availableInChat": true,
+            "options": {}
+          },
+          "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+          "typeVersion": 1.4,
+          "position": [
+            -320,
+            16
+          ],
+          "id": "7421fa10-c8cc-47d8-b167-311b944352f5",
+          "name": "When chat message received",
+          "webhookId": "3b16a908-0c14-4cc6-8724-0a0c50cb163a"
+        }
+      ],
+      "connections": {
+        "Telegram Trigger": {
+          "main": [
+            [
+              {
+                "node": "Chutes AI Agent",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Ekstrak Konten": {
+          "main": [
+            [
+              {
+                "node": "Generate images",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Chutes Chat Model": {
+          "ai_languageModel": [
+            [
+              {
+                "node": "Chutes AI Agent",
+                "type": "ai_languageModel",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Chutes AI Agent": {
+          "main": [
+            [
+              {
+                "node": "Ekstrak Konten",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Generate images": {
+          "main": [
+            [
+              {
+                "node": "Edit Image",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Create a post": {
+          "main": [
+            [
+              {
+                "node": "Set Featured Image",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Edit Image": {
+          "main": [
+            [
+              {
+                "node": "Upload Media to Wordpress",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Upload Media to Wordpress": {
+          "main": [
+            [
+              {
+                "node": "Create a post",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Update image meta data": {
+          "main": [
+            []
+          ]
+        },
+        "Set Featured Image": {
+          "main": [
+            [
+              {
+                "node": "Telegram",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Telegram": {
+          "main": [
+            []
+          ]
+        },
+        "When chat message received": {
+          "main": [
+            [
+              {
+                "node": "Chutes AI Agent",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      },
+      "authors": "diyan santoso",
+      "name": "Version b913efc1",
+      "description": "",
+      "autosaved": true
+    },
+    "tags": []
+  }
+]

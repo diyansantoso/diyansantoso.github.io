@@ -1,0 +1,198 @@
+[
+  {
+    "updatedAt": "2026-03-14T14:33:28.000Z",
+    "createdAt": "2026-03-14T13:28:36.563Z",
+    "id": "49UUQZVn6trGoR0a",
+    "name": "n8n_content_automation_ready",
+    "active": false,
+    "isArchived": true,
+    "nodes": [
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          320,
+          -256
+        ],
+        "id": "e4a283c0-fa90-4b30-8e83-3a6235db4d31",
+        "name": "Google Gemini Chat Model",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "mAZagq8HDUj5yYqz",
+            "name": "Google Gemini(PaLM) Api account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "=Generate blog post, create summary, and publish to WordPress",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3.1,
+        "position": [
+          320,
+          -464
+        ],
+        "id": "40e97313-b864-4114-bade-db58d4b7dc38",
+        "name": "AI Agent"
+      },
+      {
+        "parameters": {
+          "title": "={{ $today }}",
+          "additionalFields": {
+            "content": "={{ $json.output }}"
+          }
+        },
+        "type": "n8n-nodes-base.wordpress",
+        "typeVersion": 1,
+        "position": [
+          672,
+          -464
+        ],
+        "id": "6c1e66b8-b574-401e-80da-229e9098f768",
+        "name": "Create a post",
+        "credentials": {
+          "wordpressApi": {
+            "id": "65i4juYZlG9GQbap",
+            "name": "Wordpress account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.timestamp }}{{ $execution }}",
+          "messages": {
+            "messageValues": [
+              {
+                "message": "buatkan ide judul untuk konten di wordpress"
+              }
+            ]
+          },
+          "batching": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chainLlm",
+        "typeVersion": 1.9,
+        "position": [
+          -432,
+          -464
+        ],
+        "id": "7022eeee-c074-491d-8e3e-e49591229576",
+        "name": "Basic LLM Chain"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          -432,
+          -256
+        ],
+        "id": "0bc5cf15-3e8a-40bb-a53d-eb17b68f8f05",
+        "name": "Google Gemini Chat Model1",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "mAZagq8HDUj5yYqz",
+            "name": "Google Gemini(PaLM) Api account 2"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "rule": {
+            "interval": [
+              {
+                "field": "seconds"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.scheduleTrigger",
+        "typeVersion": 1.3,
+        "position": [
+          -656,
+          -464
+        ],
+        "id": "922ff51d-6d83-4513-a0cc-f96dd7032de4",
+        "name": "Schedule Trigger"
+      }
+    ],
+    "connections": {
+      "Google Gemini Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent": {
+        "main": [
+          [
+            {
+              "node": "Create a post",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Gemini Chat Model1": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Basic LLM Chain",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Schedule Trigger": {
+        "main": [
+          [
+            {
+              "node": "Basic LLM Chain",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false
+    },
+    "staticData": null,
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "pinData": {},
+    "versionId": "01300eb7-9c11-4567-a3c1-d357aaa8da79",
+    "activeVersionId": null,
+    "triggerCount": 0,
+    "shared": [
+      {
+        "updatedAt": "2026-03-14T13:28:36.575Z",
+        "createdAt": "2026-03-14T13:28:36.575Z",
+        "role": "workflow:owner",
+        "workflowId": "49UUQZVn6trGoR0a",
+        "projectId": "59P8vIeQ1X2EvJj1"
+      }
+    ],
+    "activeVersion": null,
+    "tags": []
+  }
+]

@@ -1,0 +1,212 @@
+[
+  {
+    "updatedAt": "2026-03-15T02:38:06.000Z",
+    "createdAt": "2026-03-12T04:58:09.635Z",
+    "id": "imMEDHeXdEHmVKi3",
+    "name": "Chat Telegram",
+    "active": false,
+    "isArchived": true,
+    "nodes": [
+      {
+        "parameters": {
+          "updates": [
+            "message"
+          ],
+          "additionalFields": {}
+        },
+        "type": "n8n-nodes-base.telegramTrigger",
+        "typeVersion": 1.2,
+        "position": [
+          -1184,
+          -4
+        ],
+        "id": "07568372-a823-42bb-9b6b-bc5b23af0702",
+        "name": "Telegram Trigger",
+        "webhookId": "ddfdd8c9-abeb-4bd5-8df4-212fe7a2a9c9",
+        "credentials": {
+          "telegramApi": {
+            "id": "eUfYuh2Hcg01m0KA",
+            "name": "Telegram account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.message.text }}\nKamu adalah Admin GTG COMPUTER, asisten virtual resmi dari GTG COMPUTER.\n\nInformasi perusahaan:\nNama usaha: GTG COMPUTER\nAlamat: Jalan Bima Sena\nLayanan: Melayani perbaikan dan instalasi komputer, printer, laptop, serta jaringan komputer.\n\nTugas kamu:\n- Menyambut pelanggan dengan ramah.\n- Memperkenalkan GTG COMPUTER jika pengguna baru.\n- Menjelaskan layanan yang tersedia.\n- Membantu pelanggan terkait servis perangkat komputer.\n\nAturan komunikasi:\n- Gunakan Bahasa Indonesia.\n- Jawab dengan ramah, profesional, dan mudah dipahami.\n- Jangan mengarang informasi di luar data perusahaan.\n- Jika ditanya layanan atau servis, jelaskan layanan GTG COMPUTER.\n\nSaat pertama kali membalas pelanggan, ucapkan:\n\"Halo, selamat datang di GTG COMPUTER. Kami melayani perbaikan dan instalasi komputer, printer, laptop, serta jaringan komputer. Ada yang bisa kami bantu?\"",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3.1,
+        "position": [
+          -736,
+          -304
+        ],
+        "id": "23a28514-b5f1-4c62-a7ee-95ca19e07ce4",
+        "name": "AI Agent"
+      },
+      {
+        "parameters": {
+          "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+          "text": "=Hello {{ $('Telegram Trigger').item.json.message.from.username }}\n\n{{ $json.output }}",
+          "additionalFields": {
+            "appendAttribution": false
+          }
+        },
+        "type": "n8n-nodes-base.telegram",
+        "typeVersion": 1.2,
+        "position": [
+          -384,
+          -200
+        ],
+        "id": "a3026b25-0410-458e-82c7-b658fc61185f",
+        "name": "Send a text message",
+        "webhookId": "f09ecc28-a0ec-40f8-a236-25f5cb63578e",
+        "credentials": {
+          "telegramApi": {
+            "id": "eUfYuh2Hcg01m0KA",
+            "name": "Telegram account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          -960,
+          -4
+        ],
+        "id": "62ab68b3-bd7b-46c9-8853-705adef7c59a",
+        "name": "Loop Over Items",
+        "alwaysOutputData": false,
+        "executeOnce": false,
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.wait",
+        "typeVersion": 1.1,
+        "position": [
+          -672,
+          96
+        ],
+        "id": "09b840bf-37a6-4360-9747-e84e976a38ee",
+        "name": "Wait",
+        "webhookId": "848bf313-4345-4457-b7ea-4fde520b2907"
+      },
+      {
+        "parameters": {
+          "model": "deepseek/deepseek-chat-v3.1",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+        "typeVersion": 1,
+        "position": [
+          -664,
+          -80
+        ],
+        "id": "fe0f933e-596e-4593-be1c-3a312c647649",
+        "name": "OpenRouter Chat Model",
+        "credentials": {
+          "openRouterApi": {
+            "id": "T5D9NorLgWRYYSiu",
+            "name": "OpenRouter account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "Telegram Trigger": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent": {
+        "main": [
+          [
+            {
+              "node": "Send a text message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Wait",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wait": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenRouter Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false,
+      "timeSavedMode": "fixed",
+      "callerPolicy": "workflowsFromSameOwner"
+    },
+    "staticData": null,
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "pinData": {},
+    "versionId": "c1d2c2b8-6431-421e-9376-c757dac6af27",
+    "activeVersionId": null,
+    "triggerCount": 1,
+    "shared": [
+      {
+        "updatedAt": "2026-03-12T04:58:09.641Z",
+        "createdAt": "2026-03-12T04:58:09.641Z",
+        "role": "workflow:owner",
+        "workflowId": "imMEDHeXdEHmVKi3",
+        "projectId": "59P8vIeQ1X2EvJj1"
+      }
+    ],
+    "activeVersion": null,
+    "tags": []
+  }
+]

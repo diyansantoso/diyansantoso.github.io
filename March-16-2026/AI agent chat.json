@@ -1,0 +1,167 @@
+[
+  {
+    "updatedAt": "2026-03-15T02:37:09.000Z",
+    "createdAt": "2026-03-11T23:31:41.504Z",
+    "id": "eYDErmihJqhiyzwE",
+    "name": "AI agent chat",
+    "active": false,
+    "isArchived": true,
+    "nodes": [
+      {
+        "parameters": {
+          "options": {}
+        },
+        "id": "ef4c6982-f746-4d48-944b-449f8bdbb69f",
+        "name": "When chat message received",
+        "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+        "position": [
+          368,
+          240
+        ],
+        "webhookId": "53c136fe-3e77-4709-a143-fe82746dd8b6",
+        "typeVersion": 1.1
+      },
+      {
+        "parameters": {},
+        "id": "e6183978-5077-4252-9718-6b36b6a7cd74",
+        "name": "Simple Memory",
+        "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+        "position": [
+          704,
+          464
+        ],
+        "typeVersion": 1.3
+      },
+      {
+        "parameters": {
+          "options": {
+            "gl": "us",
+            "device": "desktop",
+            "no_cache": true,
+            "google_domain": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Google_Domain', ``, 'string') }}",
+            "hl": "=en"
+          }
+        },
+        "id": "f0815af7-da61-4863-9cfa-b35be836b59c",
+        "name": "SerpAPI",
+        "type": "@n8n/n8n-nodes-langchain.toolSerpApi",
+        "position": [
+          896,
+          464
+        ],
+        "typeVersion": 1,
+        "credentials": {
+          "serpApi": {
+            "id": "KN5v9217kTFtnZwm",
+            "name": "SerpAPI account"
+          }
+        },
+        "notes": "q"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "id": "2d3b4012-bd5f-46d5-be6d-af1ede6c155b",
+        "name": "AI Agent",
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "position": [
+          608,
+          240
+        ],
+        "typeVersion": 1.8
+      },
+      {
+        "parameters": {
+          "modelName": "models/gemini-2.5-computer-use-preview-10-2025",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+        "typeVersion": 1,
+        "position": [
+          608,
+          464
+        ],
+        "id": "f6361057-9b5f-4747-906e-040a1ccc4d3d",
+        "name": "Google Gemini Chat Model",
+        "credentials": {
+          "googlePalmApi": {
+            "id": "6hPuVYmCFc9HZjgU",
+            "name": "Google Gemini(PaLM) Api account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "SerpAPI": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Simple Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When chat message received": {
+        "main": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Google Gemini Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false
+    },
+    "staticData": null,
+    "meta": {
+      "templateId": "1954",
+      "templateCredsSetupCompleted": true
+    },
+    "pinData": {},
+    "versionId": "e24ca39c-e894-498e-aea6-a669242582e5",
+    "activeVersionId": null,
+    "triggerCount": 0,
+    "shared": [
+      {
+        "updatedAt": "2026-03-11T23:31:41.511Z",
+        "createdAt": "2026-03-11T23:31:41.511Z",
+        "role": "workflow:owner",
+        "workflowId": "eYDErmihJqhiyzwE",
+        "projectId": "59P8vIeQ1X2EvJj1"
+      }
+    ],
+    "activeVersion": null,
+    "tags": []
+  }
+]

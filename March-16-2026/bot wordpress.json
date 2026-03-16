@@ -1,0 +1,263 @@
+[
+  {
+    "updatedAt": "2026-03-15T15:11:15.760Z",
+    "createdAt": "2026-03-15T13:41:26.996Z",
+    "id": "60kxY7pQ59d9S2I6",
+    "name": "bot wordpress",
+    "active": true,
+    "isArchived": false,
+    "nodes": [
+      {
+        "parameters": {
+          "public": true,
+          "mode": "webhook",
+          "availableInChat": true,
+          "agentIcon": {
+            "type": "icon",
+            "value": "circle"
+          },
+          "agentName": "kk",
+          "agentDescription": "ok",
+          "options": {
+            "allowedOrigins": "*",
+            "responseMode": "lastNode"
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+        "typeVersion": 1.4,
+        "position": [
+          -80,
+          -16
+        ],
+        "id": "7ae9439e-d078-4101-a6dc-05435fe61b61",
+        "name": "When chat message received",
+        "webhookId": "3db70523-579f-4c23-a1c7-cf195381bc72"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.chatInput }}\nNama Bot: GTG Computer Assistant\nIdentitas: Kamu adalah asisten AI resmi dari GTG Computer (gtgcomputer.my.id).\nTugas Utama: Membantu pengunjung website terkait layanan IT, perbaikan komputer/laptop, instalasi jaringan, dan pengadaan hardware.\n\nGaya Bahasa: Professional, solutif, santai tapi sopan (Gunakan 'Halo Kak' atau 'Halo Sobat GTG').\n\nRUANG LINGKUP PENGETAHUAN:\n1. Layanan: Service laptop/PC (mati total, lemot, ganti sparepart), instalasi OS/software, perakitan PC custom, maintenance jaringan kantor, dan recovery data.\n2. Keunggulan: Pengerjaan transparan, teknisi berpengalaman, dan harga kompetitif.\n3. Lokasi & Kontak: Jika ditanya lokasi atau cara order, arahkan untuk menghubungi via WhatsApp (sediakan link jika ada) atau datang ke workshop.\n\nINSTRUKSI PENTING:\n- Jika user bertanya tentang masalah teknis (contoh: \"Laptop saya layar biru\"), berikan diagnosa awal yang singkat dan sarankan untuk dibawa ke GTG Computer untuk dicek lebih dalam.\n- Selalu usahakan di akhir jawaban berikan ajakan (Call to Action) seperti: \"Mau konsultasi lebih lanjut via WhatsApp atau mau booking jadwal service, Kak?\"\n- Jika ditanya di luar topik IT/Komputer, jawab dengan sopan bahwa kamu hanya spesialis di bidang teknologi dan komputer di GTG Computer.\n\nDATA KONTEKS WEBSITE:\nURL: gtgcomputer.my.id\nFokus: Solusi IT Terintegrasi.",
+          "options": {}
+        },
+        "type": "n8n-nodes-chutes.chutesAIAgent",
+        "typeVersion": 1,
+        "position": [
+          144,
+          -16
+        ],
+        "id": "6cb4da56-5180-417d-9f68-905dadc0c820",
+        "name": "Chutes AI Agent"
+      },
+      {
+        "parameters": {
+          "chuteUrl": "https://chutes-openai-gpt-oss-20b.chutes.ai",
+          "model": "openai/gpt-oss-20b",
+          "options": {}
+        },
+        "type": "n8n-nodes-chutes.chutesChatModel",
+        "typeVersion": 1,
+        "position": [
+          128,
+          176
+        ],
+        "id": "7f51892d-4a6c-4bd0-ba13-73dbbd3bb8ba",
+        "name": "Chutes Chat Model",
+        "credentials": {
+          "chutesApi": {
+            "id": "QZqYhb1zoBDTsaJ4",
+            "name": "Chutes account"
+          }
+        }
+      },
+      {
+        "parameters": {},
+        "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+        "typeVersion": 1.3,
+        "position": [
+          256,
+          192
+        ],
+        "id": "1092a51a-f525-4c9f-8751-ac981d9db331",
+        "name": "Simple Memory"
+      }
+    ],
+    "connections": {
+      "When chat message received": {
+        "main": [
+          [
+            {
+              "node": "Chutes AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Chutes Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Chutes AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Simple Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "Chutes AI Agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false
+    },
+    "staticData": null,
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "pinData": {},
+    "versionId": "cf70adb1-abd2-411f-a86c-1dcde2a70858",
+    "activeVersionId": "cf70adb1-abd2-411f-a86c-1dcde2a70858",
+    "triggerCount": 1,
+    "shared": [
+      {
+        "updatedAt": "2026-03-15T13:41:27.000Z",
+        "createdAt": "2026-03-15T13:41:27.000Z",
+        "role": "workflow:owner",
+        "workflowId": "60kxY7pQ59d9S2I6",
+        "projectId": "59P8vIeQ1X2EvJj1"
+      }
+    ],
+    "activeVersion": {
+      "updatedAt": "2026-03-15T15:13:23.000Z",
+      "createdAt": "2026-03-15T15:11:15.761Z",
+      "versionId": "cf70adb1-abd2-411f-a86c-1dcde2a70858",
+      "workflowId": "60kxY7pQ59d9S2I6",
+      "nodes": [
+        {
+          "parameters": {
+            "public": true,
+            "mode": "webhook",
+            "availableInChat": true,
+            "agentIcon": {
+              "type": "icon",
+              "value": "circle"
+            },
+            "agentName": "kk",
+            "agentDescription": "ok",
+            "options": {
+              "allowedOrigins": "*",
+              "responseMode": "lastNode"
+            }
+          },
+          "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+          "typeVersion": 1.4,
+          "position": [
+            -80,
+            -16
+          ],
+          "id": "7ae9439e-d078-4101-a6dc-05435fe61b61",
+          "name": "When chat message received",
+          "webhookId": "3db70523-579f-4c23-a1c7-cf195381bc72"
+        },
+        {
+          "parameters": {
+            "promptType": "define",
+            "text": "={{ $json.chatInput }}\nNama Bot: GTG Computer Assistant\nIdentitas: Kamu adalah asisten AI resmi dari GTG Computer (gtgcomputer.my.id).\nTugas Utama: Membantu pengunjung website terkait layanan IT, perbaikan komputer/laptop, instalasi jaringan, dan pengadaan hardware.\n\nGaya Bahasa: Professional, solutif, santai tapi sopan (Gunakan 'Halo Kak' atau 'Halo Sobat GTG').\n\nRUANG LINGKUP PENGETAHUAN:\n1. Layanan: Service laptop/PC (mati total, lemot, ganti sparepart), instalasi OS/software, perakitan PC custom, maintenance jaringan kantor, dan recovery data.\n2. Keunggulan: Pengerjaan transparan, teknisi berpengalaman, dan harga kompetitif.\n3. Lokasi & Kontak: Jika ditanya lokasi atau cara order, arahkan untuk menghubungi via WhatsApp (sediakan link jika ada) atau datang ke workshop.\n\nINSTRUKSI PENTING:\n- Jika user bertanya tentang masalah teknis (contoh: \"Laptop saya layar biru\"), berikan diagnosa awal yang singkat dan sarankan untuk dibawa ke GTG Computer untuk dicek lebih dalam.\n- Selalu usahakan di akhir jawaban berikan ajakan (Call to Action) seperti: \"Mau konsultasi lebih lanjut via WhatsApp atau mau booking jadwal service, Kak?\"\n- Jika ditanya di luar topik IT/Komputer, jawab dengan sopan bahwa kamu hanya spesialis di bidang teknologi dan komputer di GTG Computer.\n\nDATA KONTEKS WEBSITE:\nURL: gtgcomputer.my.id\nFokus: Solusi IT Terintegrasi.",
+            "options": {}
+          },
+          "type": "n8n-nodes-chutes.chutesAIAgent",
+          "typeVersion": 1,
+          "position": [
+            144,
+            -16
+          ],
+          "id": "6cb4da56-5180-417d-9f68-905dadc0c820",
+          "name": "Chutes AI Agent"
+        },
+        {
+          "parameters": {
+            "chuteUrl": "https://chutes-openai-gpt-oss-20b.chutes.ai",
+            "model": "openai/gpt-oss-20b",
+            "options": {}
+          },
+          "type": "n8n-nodes-chutes.chutesChatModel",
+          "typeVersion": 1,
+          "position": [
+            128,
+            176
+          ],
+          "id": "7f51892d-4a6c-4bd0-ba13-73dbbd3bb8ba",
+          "name": "Chutes Chat Model",
+          "credentials": {
+            "chutesApi": {
+              "id": "QZqYhb1zoBDTsaJ4",
+              "name": "Chutes account"
+            }
+          }
+        },
+        {
+          "parameters": {},
+          "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+          "typeVersion": 1.3,
+          "position": [
+            256,
+            192
+          ],
+          "id": "1092a51a-f525-4c9f-8751-ac981d9db331",
+          "name": "Simple Memory"
+        }
+      ],
+      "connections": {
+        "When chat message received": {
+          "main": [
+            [
+              {
+                "node": "Chutes AI Agent",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Chutes Chat Model": {
+          "ai_languageModel": [
+            [
+              {
+                "node": "Chutes AI Agent",
+                "type": "ai_languageModel",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Simple Memory": {
+          "ai_memory": [
+            [
+              {
+                "node": "Chutes AI Agent",
+                "type": "ai_memory",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      },
+      "authors": "diyan santoso",
+      "name": "Version cf70adb1",
+      "description": "",
+      "autosaved": true
+    },
+    "tags": []
+  }
+]

@@ -1,0 +1,190 @@
+[
+  {
+    "updatedAt": "2026-03-15T09:11:25.341Z",
+    "createdAt": "2026-03-12T07:29:54.357Z",
+    "id": "s1gGQwh5Y2PpyuJu",
+    "name": "Chat WA -No Gilbert",
+    "active": false,
+    "isArchived": false,
+    "nodes": [
+      {
+        "parameters": {},
+        "type": "@devlikeapro/n8n-nodes-waha.wahaTrigger",
+        "typeVersion": 202502,
+        "position": [
+          -448,
+          -240
+        ],
+        "id": "3f985ed7-a27e-44c6-b468-8948a3836f2f",
+        "name": "WAHA Trigger",
+        "webhookId": "b938ad83-57da-4036-b647-2035eaaf4c4a"
+      },
+      {
+        "parameters": {
+          "promptType": "define",
+          "text": "={{ $json.payload.body }}\nKamu adalah AI Assistant perusahaan toko komputer.\n\nTugas kamu:\n- Menjawab pertanyaan pelanggan.\n- Jika pertanyaan berkaitan dengan barang, stok, harga, produk, atau penjualan,\n  kamu WAJIB menggunakan tool \"cek_data_barang\".\n\nAturan penggunaan tool:\n- Ambil nama barang dari pertanyaan pengguna.\n- Gunakan kata kunci utama sebagai \"nama_barang\".\n- Setelah mendapatkan data, jelaskan hasilnya secara ramah.\n\nJika data ditemukan:\nSebutkan:\n- Nama barang\n- Stok tersedia\n- Harga jual\n\nJika data tidak ditemukan:\nKatakan barang tidak tersedia dan tawarkan bantuan lain.\n\nGunakan Bahasa Indonesia yang ramah dan profesional.\nJangan mengarang data di luar hasil tool.\n\nJika ada yang menanyakan barang:\ncek di {{\"$json.Data Barang\"}}\n\n",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3.1,
+        "position": [
+          48,
+          -112
+        ],
+        "id": "6a6f2587-ab2d-4a38-956b-59a52a0e65ec",
+        "name": "AI Agent"
+      },
+      {
+        "parameters": {
+          "model": "x-ai/grok-4-fast",
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+        "typeVersion": 1,
+        "position": [
+          64,
+          112
+        ],
+        "id": "1ef4917e-042c-48f6-9628-400e42f01114",
+        "name": "OpenRouter Chat Model",
+        "credentials": {
+          "openRouterApi": {
+            "id": "T5D9NorLgWRYYSiu",
+            "name": "OpenRouter account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "documentId": {
+            "__rl": true,
+            "value": "15LyAC5mr6CckyywzSm3bs_VZuMlCcO14_3bUXF6Hs1g",
+            "mode": "list",
+            "cachedResultName": "barang",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15LyAC5mr6CckyywzSm3bs_VZuMlCcO14_3bUXF6Hs1g/edit?usp=drivesdk"
+          },
+          "sheetName": {
+            "__rl": true,
+            "value": 721842967,
+            "mode": "list",
+            "cachedResultName": "Sheet2",
+            "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15LyAC5mr6CckyywzSm3bs_VZuMlCcO14_3bUXF6Hs1g/edit#gid=721842967"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.googleSheetsTool",
+        "typeVersion": 4.7,
+        "position": [
+          192,
+          112
+        ],
+        "id": "c24c87d4-69c1-46df-9331-4e49285568dc",
+        "name": "Data Barang",
+        "credentials": {
+          "googleSheetsOAuth2Api": {
+            "id": "S4sD18TxDMsDHQx0",
+            "name": "Google Sheets account"
+          }
+        }
+      },
+      {
+        "parameters": {
+          "resource": "Chatting",
+          "operation": "Send Text",
+          "session": "={{ $('WAHA Trigger').item.json.session }}",
+          "chatId": "={{ $('WAHA Trigger').item.json.payload.from }}",
+          "text": "={{ $json.output }}",
+          "requestOptions": {}
+        },
+        "type": "@devlikeapro/n8n-nodes-waha.WAHA",
+        "typeVersion": 202502,
+        "position": [
+          432,
+          -112
+        ],
+        "id": "34fcca21-1b58-481c-97a3-2a42d510d748",
+        "name": "Send a text message",
+        "credentials": {
+          "wahaApi": {
+            "id": "E5B3Dp5C9WiRubHl",
+            "name": "WAHA account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "WAHA Trigger": {
+        "main": [
+          [],
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "OpenRouter Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "AI Agent": {
+        "main": [
+          [
+            {
+              "node": "Send a text message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Data Barang": {
+        "ai_tool": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_tool",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false,
+      "timeSavedMode": "fixed",
+      "callerPolicy": "workflowsFromSameOwner",
+      "executionTimeout": 60
+    },
+    "staticData": null,
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "pinData": {},
+    "versionId": "4cb454cc-294f-4365-82f8-fce82b130236",
+    "activeVersionId": null,
+    "triggerCount": 1,
+    "shared": [
+      {
+        "updatedAt": "2026-03-12T07:29:54.359Z",
+        "createdAt": "2026-03-12T07:29:54.359Z",
+        "role": "workflow:owner",
+        "workflowId": "s1gGQwh5Y2PpyuJu",
+        "projectId": "59P8vIeQ1X2EvJj1"
+      }
+    ],
+    "activeVersion": null,
+    "tags": []
+  }
+]

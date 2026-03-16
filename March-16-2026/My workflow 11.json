@@ -1,0 +1,106 @@
+[
+  {
+    "updatedAt": "2026-03-15T02:38:24.000Z",
+    "createdAt": "2026-03-14T14:36:47.299Z",
+    "id": "az7WZdDgMZabVoF7",
+    "name": "My workflow 11",
+    "active": false,
+    "isArchived": true,
+    "nodes": [
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+        "typeVersion": 1.4,
+        "position": [
+          -128,
+          -48
+        ],
+        "id": "15141e36-062b-4232-bbf6-9658ac717c68",
+        "name": "When chat message received",
+        "webhookId": "5c2cbccc-f561-43b0-a2b7-1a26e2990fc0"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 3.1,
+        "position": [
+          80,
+          -48
+        ],
+        "id": "86b1fa37-650f-4bab-8db5-ab30576eb202",
+        "name": "AI Agent"
+      },
+      {
+        "parameters": {
+          "sessionIdType": "customKey"
+        },
+        "type": "@n8n/n8n-nodes-langchain.memoryMongoDbChat",
+        "typeVersion": 1,
+        "position": [
+          176,
+          160
+        ],
+        "id": "26803693-6e96-4507-ab78-96d0c8ea39aa",
+        "name": "MongoDB Chat Memory",
+        "credentials": {
+          "mongoDb": {
+            "id": "wx6qhdFT2CGeYZvf",
+            "name": "MongoDB account"
+          }
+        }
+      }
+    ],
+    "connections": {
+      "When chat message received": {
+        "main": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "MongoDB Chat Memory": {
+        "ai_memory": [
+          [
+            {
+              "node": "AI Agent",
+              "type": "ai_memory",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": false
+    },
+    "staticData": null,
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "pinData": {},
+    "versionId": "e4d01270-bf30-4f32-ac16-723d1a5e72f2",
+    "activeVersionId": null,
+    "triggerCount": 0,
+    "shared": [
+      {
+        "updatedAt": "2026-03-14T14:36:47.309Z",
+        "createdAt": "2026-03-14T14:36:47.309Z",
+        "role": "workflow:owner",
+        "workflowId": "az7WZdDgMZabVoF7",
+        "projectId": "59P8vIeQ1X2EvJj1"
+      }
+    ],
+    "activeVersion": null,
+    "tags": []
+  }
+]
