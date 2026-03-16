@@ -2,7 +2,7 @@
   {
     "updatedAt": "2026-03-15T15:11:15.760Z",
     "createdAt": "2026-03-15T13:41:26.996Z",
-    "id": "60kxY7pQ59d9S2I6",
+    "id": "",
     "name": "bot wordpress",
     "active": true,
     "isArchived": false,
@@ -29,9 +29,9 @@
           -80,
           -16
         ],
-        "id": "7ae9439e-d078-4101-a6dc-05435fe61b61",
+        "id": "",
         "name": "When chat message received",
-        "webhookId": "3db70523-579f-4c23-a1c7-cf195381bc72"
+        "webhookId": ""
       },
       {
         "parameters": {
@@ -45,7 +45,7 @@
           144,
           -16
         ],
-        "id": "6cb4da56-5180-417d-9f68-905dadc0c820",
+        "id": "",
         "name": "Chutes AI Agent"
       },
       {
@@ -60,11 +60,11 @@
           128,
           176
         ],
-        "id": "7f51892d-4a6c-4bd0-ba13-73dbbd3bb8ba",
+        "id": "",
         "name": "Chutes Chat Model",
         "credentials": {
           "chutesApi": {
-            "id": "QZqYhb1zoBDTsaJ4",
+            "id": "",
             "name": "Chutes account"
           }
         }
@@ -77,7 +77,7 @@
           256,
           192
         ],
-        "id": "1092a51a-f525-4c9f-8751-ac981d9db331",
+        "id": "",
         "name": "Simple Memory"
       }
     ],
@@ -134,15 +134,15 @@
         "updatedAt": "2026-03-15T13:41:27.000Z",
         "createdAt": "2026-03-15T13:41:27.000Z",
         "role": "workflow:owner",
-        "workflowId": "60kxY7pQ59d9S2I6",
-        "projectId": "59P8vIeQ1X2EvJj1"
+        "workflowId": "",
+        "projectId": ""
       }
     ],
     "activeVersion": {
       "updatedAt": "2026-03-15T15:13:23.000Z",
       "createdAt": "2026-03-15T15:11:15.761Z",
-      "versionId": "cf70adb1-abd2-411f-a86c-1dcde2a70858",
-      "workflowId": "60kxY7pQ59d9S2I6",
+      "versionId": "",
+      "workflowId": "",
       "nodes": [
         {
           "parameters": {
@@ -166,9 +166,9 @@
             -80,
             -16
           ],
-          "id": "7ae9439e-d078-4101-a6dc-05435fe61b61",
+          "id": "",
           "name": "When chat message received",
-          "webhookId": "3db70523-579f-4c23-a1c7-cf195381bc72"
+          "webhookId": ""
         },
         {
           "parameters": {
@@ -182,7 +182,7 @@
             144,
             -16
           ],
-          "id": "6cb4da56-5180-417d-9f68-905dadc0c820",
+          "id": "",
           "name": "Chutes AI Agent"
         },
         {
@@ -197,7 +197,7 @@
             128,
             176
           ],
-          "id": "7f51892d-4a6c-4bd0-ba13-73dbbd3bb8ba",
+          "id": "",
           "name": "Chutes Chat Model",
           "credentials": {
             "chutesApi": {
@@ -214,7 +214,7 @@
             256,
             192
           ],
-          "id": "1092a51a-f525-4c9f-8751-ac981d9db331",
+          "id": "",
           "name": "Simple Memory"
         }
       ],
